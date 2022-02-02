@@ -144,7 +144,7 @@ namespace FreeMatrix
             }
         }
 
-        public class Convert
+        public class Convert2D
         {
             public static Vector2 ToLocal(Vector2 reference, Vector2 target)
             {
@@ -168,9 +168,29 @@ namespace FreeMatrix
             }
         }
 
-        public class Tween
+        public class Tween2D
         {
-            public static Vector3 PointTo2D(Vector3 target, Vector3 current, Quaternion currentRotation)
+            public static Vector2 ScaleUp(Vector2 target, float rate)
+            {
+                return new Vector2(target.x - rate, target.y + rate);
+            }
+
+            public static float ScaleUp(float target, float rate)
+            {
+                return target + rate;
+            }
+
+            public static Vector2 ScaleDown(Vector2 target, float rate)
+            {
+                return new Vector2(target.x - rate, target.y - rate);
+            }
+
+            public static float ScaleDown(float target, float rate)
+            {
+                return target - rate;
+            }
+
+            public static Vector3 PointTo(Vector3 target, Vector3 current, Quaternion currentRotation)
             {
                 Vector3 dir = target - current;
                 Vector3 angle;

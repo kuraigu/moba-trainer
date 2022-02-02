@@ -35,8 +35,8 @@ public class Fireburst : Ability
         coolDownTime = 5;
         coolDownTimer = new FreeMatrix.Utility.Time(FreeMatrix.Utility.Time.TYPE.COUNTDOWN, coolDownTime);
 
-        thrust = FreeMatrix.Utility.Convert.ToLocal(rss.displayCanvas.transform.localScale.x, attackSpeed);
-        thrust = FreeMatrix.Utility.Convert.ToWorld(rss.displayCanvas.transform.localScale.x, attackSpeed);
+        thrust = FreeMatrix.Utility.Convert2D.ToLocal(rss.displayCanvas.transform.localScale.x, attackSpeed);
+        thrust = FreeMatrix.Utility.Convert2D.ToWorld(rss.displayCanvas.transform.localScale.x, attackSpeed);
 
         Debug.Log(thrust);
     }
@@ -48,7 +48,7 @@ public class Fireburst : Ability
             parent.GetComponent<HeroManager>().allowMove = false;
 
             onMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            onMousePosition = FreeMatrix.Utility.Convert.ToLocal(rss.displayCanvas.transform.localScale, onMousePosition * 100);
+            onMousePosition = FreeMatrix.Utility.Convert2D.ToLocal(rss.displayCanvas.transform.localScale, onMousePosition * 100);
 
             Vector2 direction = new Vector3();
             Vector3 angle = new Vector3();
@@ -65,7 +65,7 @@ public class Fireburst : Ability
                 if (i == projectile.Count - 3)
                 {
                     direction = onMousePosition - projectile[i].transform.localPosition;
-                    angle = FreeMatrix.Utility.Tween.PointTo2D(onMousePosition, projectile[i].transform.localPosition, projectile[i].transform.localRotation);
+                    angle = FreeMatrix.Utility.Tween2D.PointTo(onMousePosition, projectile[i].transform.localPosition, projectile[i].transform.localRotation);
 
                     projectile[i].transform.localRotation = Quaternion.Euler(angle);
                     parent.transform.localRotation = Quaternion.Euler(angle);
@@ -113,7 +113,7 @@ public class Fireburst : Ability
             {
                 projectile[i].GetComponent<Rigidbody2D>().velocity = projectile[i].transform.right * new Vector2(thrust, thrust);
 
-                if (Vector2.Distance(oldPositionList[i], projectile[i].transform.localPosition) >= FreeMatrix.Utility.Convert.ToLocal(rss.displayCanvas.transform.localScale.x, range))
+                if (Vector2.Distance(oldPositionList[i], projectile[i].transform.localPosition) >= FreeMatrix.Utility.Convert2D.ToLocal(rss.displayCanvas.transform.localScale.x, range))
                 {
                     Destroy(projectile[i]);
                     projectile.RemoveAt(i);

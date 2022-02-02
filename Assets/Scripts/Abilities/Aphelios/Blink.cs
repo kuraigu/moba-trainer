@@ -31,14 +31,14 @@ public class Blink : Ability
         if (isActive)
         {
             onMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            onMousePosition = FreeMatrix.Utility.Convert.ToLocal(rss.displayCanvas.transform.localScale, onMousePosition * 100);
+            onMousePosition = FreeMatrix.Utility.Convert2D.ToLocal(rss.displayCanvas.transform.localScale, onMousePosition * 100);
             destination = onMousePosition;
 
             parent.GetComponent<HeroManager>().allowMove = false;
 
             parent.transform.localPosition = Vector3.MoveTowards(parent.transform.localPosition, destination, range);
 
-            parent.transform.localRotation = Quaternion.Euler(FreeMatrix.Utility.Tween.PointTo2D(onMousePosition, parent.transform.localPosition, parent.transform.localRotation));
+            parent.transform.localRotation = Quaternion.Euler(FreeMatrix.Utility.Tween2D.PointTo(onMousePosition, parent.transform.localPosition, parent.transform.localRotation));
 
             coolDownTimeRun = true;
             isActive = false;
