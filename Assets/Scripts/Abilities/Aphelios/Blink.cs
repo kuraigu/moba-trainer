@@ -31,7 +31,7 @@ public class Blink : Ability
         if (isActive)
         {
             onMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            onMousePosition = FreeMatrix.Utility.Convert2D.ToLocal(rss.displayCanvas.transform.localScale, onMousePosition * 100);
+            onMousePosition = FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale, onMousePosition * 100);
             destination = onMousePosition;
 
             parent.GetComponent<HeroManager>().allowMove = false;

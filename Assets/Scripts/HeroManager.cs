@@ -96,8 +96,9 @@ public class HeroManager : MonoBehaviour
         {
             coolDownIndicator.SetActive(true);
 
-            Vector3 rate = new Vector3(0, coolDownIndicatorOriginalScale.y / ability.coolDownTimer.max, 0);
-            coolDownIndicator.transform.localScale -= rate * Time.deltaTime;
+            Vector3 newScale = coolDownIndicator.transform.localScale;
+            newScale.y = FreeMatrix.Utility.Tween2D.ScaleDown(coolDownIndicator.transform.localScale.y, coolDownIndicatorOriginalScale.y / ability.coolDownTime);
+            coolDownIndicator.transform.localScale = newScale;
             Vector3 newPos = abilityHolder.transform.localPosition;
             newPos.y = (abilityHolder.transform.localPosition.y + (abilityHolder.transform.localScale.y / 2)) - (coolDownIndicator.transform.localScale.y / 2);
             coolDownIndicator.transform.localPosition = newPos;

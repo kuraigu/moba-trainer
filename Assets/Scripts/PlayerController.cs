@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButton(1))
         {
             onRightClickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            destination = FreeMatrix.Utility.Convert2D.ToLocal(rss.displayCanvas.transform.localScale, onRightClickPosition * 100);
+            destination = FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale, onRightClickPosition * 100);
 
 
             rss.player.GetComponent<HeroManager>().allowMove = true;

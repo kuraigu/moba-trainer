@@ -35,8 +35,8 @@ public class Fireball : Ability
         coolDownTimer = new FreeMatrix.Utility.Time(FreeMatrix.Utility.Time.TYPE.COUNTDOWN, coolDownTime);
         coolDownTimeRun = false;
 
-        thrust = FreeMatrix.Utility.Convert2D.ToLocal(rss.displayCanvas.transform.localScale.x, attackSpeed);
-        thrust = FreeMatrix.Utility.Convert2D.ToWorld(rss.displayCanvas.transform.localScale.x, attackSpeed);
+        thrust = FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale.x, attackSpeed);
+        thrust = FreeMatrix.Utility.Convert2D.LocalToWorld(rss.displayCanvas.transform.localScale.x, attackSpeed);
 
         Debug.Log(thrust);
     }
@@ -48,7 +48,7 @@ public class Fireball : Ability
             parent.GetComponent<HeroManager>().allowMove = false;
 
             onMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            onMousePosition = FreeMatrix.Utility.Convert2D.ToLocal(rss.displayCanvas.transform.localScale, onMousePosition * 100);
+            onMousePosition = FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale, onMousePosition * 100);
 
             projectile.Add(Instantiate(projectileReference));
             int tempIndex = projectile.Count - 1;
@@ -90,7 +90,7 @@ public class Fireball : Ability
             {
                 projectile[i].GetComponent<Rigidbody2D>().velocity = projectile[i].transform.right * new Vector2(thrust, thrust);
 
-                if (Vector2.Distance(oldPositionList[i], projectile[i].transform.localPosition) >= FreeMatrix.Utility.Convert2D.ToLocal(rss.displayCanvas.transform.localScale.x, range))
+                if (Vector2.Distance(oldPositionList[i], projectile[i].transform.localPosition) >= FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale.x, range))
                 {
                     Destroy(projectile[i]);
                     projectile.RemoveAt(i);
