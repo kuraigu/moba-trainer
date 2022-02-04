@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private static Resources rss;
+    private static Keybind keybind;
 
     private Vector3 onRightClickPosition;
     private Vector3 destination;
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rss = FindObjectOfType<Resources>();
+        keybind = FindObjectOfType<Keybind>();
     }
 
     // Update is called once per frame
@@ -25,6 +27,31 @@ public class PlayerController : MonoBehaviour
 
 
             rss.player.GetComponent<HeroManager>().allowMove = true;
+        }
+
+        if (Input.GetKeyDown(keybind.ability1))
+        {
+            rss.player.GetComponent<HeroManager>().abilityToggle1 = true;
+        }
+
+        if (Input.GetKeyDown(keybind.ability2))
+        {
+            rss.player.GetComponent<HeroManager>().abilityToggle2 = true;
+        }
+
+        if (Input.GetKeyDown(keybind.ability3))
+        {
+            rss.player.GetComponent<HeroManager>().abilityToggle3 = true;
+        }
+
+        if (Input.GetKeyDown(keybind.ability4))
+        {
+            rss.player.GetComponent<HeroManager>().abilityToggle4 = true;
+        }
+
+        if (Input.GetKeyDown(keybind.holdPosition))
+        {
+            rss.player.GetComponent<HeroManager>().allowMove = false;
         }
     }
 

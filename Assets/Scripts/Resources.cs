@@ -8,6 +8,11 @@ public class Resources : MonoBehaviour
 
     public GameObject player;
 
+    // Misc
+    public GameObject enemiesMisc;
+    public GameObject heroesMisc;
+    public GameObject projectilesMisc;
+
     // Projectiles
     public GameObject fireBall;
 
@@ -23,6 +28,7 @@ public class Resources : MonoBehaviour
     public GameObject coolDownIndicator3;
     public GameObject coolDownIndicator4;
 
+    // Abilities
 
     void Start()
     {
@@ -48,5 +54,8 @@ public class Resources : MonoBehaviour
         coolDownIndicator2.SetActive(false);
         coolDownIndicator3.SetActive(false);
         coolDownIndicator4.SetActive(false);
+
+        heroesMisc = GameObject.Find("Heroes");
+        heroesMisc.SetActive(false);
     }
 }

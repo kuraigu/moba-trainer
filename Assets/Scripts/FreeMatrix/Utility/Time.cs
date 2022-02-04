@@ -10,7 +10,6 @@ namespace FreeMatrix
         {
             private float _max;
             private float _elapsed;
-            private float _scale;
             private float _remaining;
 
             private List<float> _recorded;
@@ -26,11 +25,10 @@ namespace FreeMatrix
             /// <param name="type">The type of timer to be run Note: Use TYPE enum to assign a type</param>
             /// <param name="max">The maximum elapsed time to reset the timer, ignored if timer type is STOPWATCH</param>
             /// <param name="scale">Determines how fast the timer is</param>
-            public Time(TYPE type = TYPE.STOPWATCH, float max = 60, float scale = 1)
+            public Time(TYPE type = TYPE.STOPWATCH, float max = 60)
             {
                 this._type = type;
                 this._max = max;
-                this._scale = scale;
 
                 _recorded = new List<float>();
 
@@ -67,7 +65,7 @@ namespace FreeMatrix
 
                     if (_type == TYPE.COUNTUP && _type == TYPE.STOPWATCH)
                     {
-                        _elapsed += _scale * UnityEngine.Time.deltaTime;
+                        _elapsed += 1 * UnityEngine.Time.deltaTime;
                         _remaining -= _elapsed;
 
                         if (type == TYPE.COUNTUP)
@@ -83,7 +81,7 @@ namespace FreeMatrix
 
                     if (_type == TYPE.COUNTDOWN)
                     {
-                        _elapsed -= _scale * UnityEngine.Time.deltaTime;
+                        _elapsed -= 1 * UnityEngine.Time.deltaTime;
                         _remaining = _elapsed;
 
                         if (_elapsed <= 0)
@@ -147,7 +145,6 @@ namespace FreeMatrix
 
             public float max { get { return _max; } set { _max = value; } }
             public float elapsed { get { return _elapsed; } set { _elapsed = value; } }
-            public float scale { get { return _scale; } set { _scale = value; } }
             public float remaining { get { return _remaining; } }
 
             public List<float> recorded { get { return _recorded; } }

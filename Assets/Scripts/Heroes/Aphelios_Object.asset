@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Aphelios_Object
   m_EditorClassIdentifier: 
   _heroName: Aphelios
-  _moveSpeed: 500
+  _moveSpeed: 300

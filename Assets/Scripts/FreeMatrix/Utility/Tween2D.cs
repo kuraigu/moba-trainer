@@ -29,7 +29,7 @@ namespace FreeMatrix
             /// <returns>Scale in (float)</returns>
             public static float ScaleUp(float target, float rate)
             {
-                return target + rate * UnityEngine.Time.deltaTime * UnityEngine.Time.deltaTime;
+                return target + (rate * UnityEngine.Time.deltaTime);
             }
 
             /// <summary>
@@ -41,7 +41,7 @@ namespace FreeMatrix
             /// <returns>Scale in (Vector 2)</returns>
             public static Vector2 ScaleDown(Vector2 target, float rate)
             {
-                return new Vector2(target.x - rate, target.y - rate) * UnityEngine.Time.deltaTime;
+                return new Vector2(target.x - rate * UnityEngine.Time.deltaTime, target.y - rate * UnityEngine.Time.deltaTime);
             }
 
             /// <summary>
@@ -53,7 +53,7 @@ namespace FreeMatrix
             /// <returns>Scale in (float)</returns>
             public static float ScaleDown(float target, float rate)
             {
-                return target - rate * UnityEngine.Time.deltaTime;
+                return target - (rate * UnityEngine.Time.deltaTime);
             }
 
             /// <summary>

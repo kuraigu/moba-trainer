@@ -10,10 +10,12 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         rss = FindObjectOfType<Resources>();
-        rss.player = Instantiate(GameObject.Find("Heroes").transform.Find("Aphelios").gameObject);
+        rss.heroesMisc.SetActive(true);
+        rss.player = Instantiate(rss.heroesMisc.transform.Find("Aphelios").gameObject);
         rss.player.transform.SetParent(rss.displayCanvas.transform, false);
         rss.player.transform.localPosition = Vector3.zero;
-        GameObject.Find("Heroes").SetActive(false);
+        rss.player.GetComponent<HeroManager>().isPlayer = true;
+        rss.heroesMisc.SetActive(false);
     }
 
     // Update is called once per frame

@@ -37,8 +37,6 @@ public class Fireburst : Ability
 
         thrust = FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale.x, attackSpeed);
         thrust = FreeMatrix.Utility.Convert2D.LocalToWorld(rss.displayCanvas.transform.localScale.x, attackSpeed);
-
-        Debug.Log(thrust);
     }
 
     public override void Activate()
@@ -102,6 +100,8 @@ public class Fireburst : Ability
                 isActive = true;
                 coolDownTimeRun = false;
             }
+
+            Debug.Log(coolDownTimer.remaining);
         }
     }
 

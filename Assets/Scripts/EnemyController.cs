@@ -5,41 +5,34 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     private static Resources rss;
-
+    private static EnemyManager enemyManager;
     private List<GameObject> enemy;
-    private GameObject enemyCanvas;
-
-    private FreeMatrix.Utility.Time enemySpawnTimer;
-
     // Start is called before the first frame update
     void Start()
     {
-        rss = FindObjectOfType<Resources>();
-
-        enemySpawnTimer = new FreeMatrix.Utility.Time(FreeMatrix.Utility.Time.TYPE.COUNTDOWN, 6);
         enemy = new List<GameObject>();
-        enemy.Add(Instantiate(GameObject.Find("Enemies").transform.Find("Enemy Minion").gameObject));
-        enemy[enemy.Count - 1].transform.SetParent(rss.displayCanvas.transform, false);
-        enemy[enemy.Count - 1].transform.localPosition = new Vector3(500, 500, 0);
+        rss = FindObjectOfType<Resources>();
+        enemyManager = FindObjectOfType<EnemyManager>();
 
-        enemyCanvas = GameObject.Find("Enemies");
-        enemyCanvas.SetActive(false);
+        enemy = enemyManager.enemy;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (enemySpawnTimer.Update())
+        if (enemy.Count > 0)
         {
-            enemySpawnTimer.scale += 0.001f;
+            for (int i = 0; i < enemy.Count; i++)
+            {
+                enemy[i].transform.localRotation = Quaternion.Euler(FreeMatrix.Utility.Tween2D.PointTo(rss.player.transform.localPosition, enemy[i].transform.localPosition, enemy[i].transform.localRotation));
+                enemy[i].transform.localPosition = Vector2.MoveTowards(enemy[i].transform.localPosition, rss.player.transform.localPosition, (enemy[i].GetComponent<HeroManager>().moveSpeed - 150) * Time.deltaTime);
 
-            enemyCanvas.SetActive(true);
-            enemy.Add(Instantiate(enemyCanvas.transform.Find("Enemy Minion").gameObject));
-            enemy[enemy.Count - 1].transform.SetParent(rss.displayCanvas.transform, false);
-            enemy[enemy.Count - 1].transform.localPosition = new Vector3(500, 500, 0);
-
-            enemyCanvas.SetActive(false);
-
+                if (Vector2.Distance(enemy[i].transform.localPosition, rss.player.transform.localPosition) < 0.1 * Time.deltaTime)
+                {
+                    Destroy(enemy[i]);
+                    enemy.RemoveAt(i);
+                }
+            }
         }
     }
 }
