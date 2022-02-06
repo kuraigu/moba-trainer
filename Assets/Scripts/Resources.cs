@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Resources : MonoBehaviour
 {
+    public SceneManager sceneManager;
+
     public Canvas displayCanvas;
 
     public GameObject player;
@@ -28,10 +30,12 @@ public class Resources : MonoBehaviour
     public GameObject coolDownIndicator3;
     public GameObject coolDownIndicator4;
 
-    // Abilities
+    public GameObject score;
+
 
     void Start()
     {
+        sceneManager = FindObjectOfType<SceneManager>();
         displayCanvas = GameObject.Find("Display Canvas").GetComponent<Canvas>();
 
         player = GameObject.Find("Player");
@@ -57,5 +61,7 @@ public class Resources : MonoBehaviour
 
         heroesMisc = GameObject.Find("Heroes");
         heroesMisc.SetActive(false);
+
+        score = GameObject.Find("Score").transform.Find("Score Value").gameObject;
     }
 }

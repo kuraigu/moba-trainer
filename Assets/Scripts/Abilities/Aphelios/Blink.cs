@@ -38,6 +38,8 @@ public class Blink : Ability
 
             parent.transform.localPosition = Vector3.MoveTowards(parent.transform.localPosition, destination, range);
 
+            parent.GetComponent<Rigidbody2D>().position = FreeMatrix.Utility.Convert2D.LocalToWorld(rss.displayCanvas.transform.localScale, parent.transform.localPosition);
+
             parent.transform.localRotation = Quaternion.Euler(FreeMatrix.Utility.Tween2D.PointTo(onMousePosition, parent.transform.localPosition, parent.transform.localRotation));
 
             coolDownTimeRun = true;

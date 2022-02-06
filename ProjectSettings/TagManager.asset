@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - Player Projectile
   layers:
   - Default
   - TransparentFX
@@ -40,6 +42,12 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Projectile
+    uniqueID: 3163444887
+    locked: 0
+  - name: Heroes
+    uniqueID: 3531891951
     locked: 0
   - name: UI
     uniqueID: 282560851

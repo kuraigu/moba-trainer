@@ -31,14 +31,12 @@ public class Fireball : Ability
 
         attackSpeed = 1000;
 
-        coolDownTime = 5;
+        coolDownTime = 1;
         coolDownTimer = new FreeMatrix.Utility.Time(FreeMatrix.Utility.Time.TYPE.COUNTDOWN, coolDownTime);
         coolDownTimeRun = false;
 
         thrust = FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale.x, attackSpeed);
         thrust = FreeMatrix.Utility.Convert2D.LocalToWorld(rss.displayCanvas.transform.localScale.x, attackSpeed);
-
-        Debug.Log(thrust);
     }
 
     public override void Activate()
@@ -55,6 +53,7 @@ public class Fireball : Ability
 
             projectile[tempIndex].transform.SetParent(rss.displayCanvas.transform, false);
             projectile[tempIndex].transform.localPosition = parent.transform.localPosition;
+            projectile[tempIndex].tag = "Player Projectile";
 
             Vector2 direction = onMousePosition - projectile[tempIndex].transform.localPosition;
 
@@ -90,7 +89,8 @@ public class Fireball : Ability
             {
                 projectile[i].GetComponent<Rigidbody2D>().velocity = projectile[i].transform.right * new Vector2(thrust, thrust);
 
-                if (Vector2.Distance(oldPositionList[i], projectile[i].transform.localPosition) >= FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale.x, range))
+                if (Vector2.Distance(oldPositionList[i], projectile[i].transform.localPosition) >= FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale.x, range)
+                || projectile[i].GetComponent<ProjectileManager>().collideTag == "Enemy")
                 {
                     Destroy(projectile[i]);
                     projectile.RemoveAt(i);

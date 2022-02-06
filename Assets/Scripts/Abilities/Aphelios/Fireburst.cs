@@ -29,7 +29,7 @@ public class Fireburst : Ability
 
         isActive = true;
 
-        attackSpeed = 1000;
+        attackSpeed = 700;
 
         coolDownTimeRun = false;
         coolDownTime = 5;
@@ -80,6 +80,8 @@ public class Fireburst : Ability
                     float angleTemp = angle.z + 30;
                     projectile[i].transform.localRotation = Quaternion.Euler(new Vector3(angle.x, angle.y, angleTemp));
                 }
+
+                projectile[i].tag = "Player Projectile";
             }
 
             oldPositionList.Add(parent.transform.localPosition);
@@ -100,8 +102,6 @@ public class Fireburst : Ability
                 isActive = true;
                 coolDownTimeRun = false;
             }
-
-            Debug.Log(coolDownTimer.remaining);
         }
     }
 
@@ -113,7 +113,8 @@ public class Fireburst : Ability
             {
                 projectile[i].GetComponent<Rigidbody2D>().velocity = projectile[i].transform.right * new Vector2(thrust, thrust);
 
-                if (Vector2.Distance(oldPositionList[i], projectile[i].transform.localPosition) >= FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale.x, range))
+                if (Vector2.Distance(oldPositionList[i], projectile[i].transform.localPosition) >= FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale.x, range)
+                || projectile[i].GetComponent<ProjectileManager>().collideTag == "Enemy")
                 {
                     Destroy(projectile[i]);
                     projectile.RemoveAt(i);

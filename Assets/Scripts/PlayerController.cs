@@ -60,7 +60,10 @@ public class PlayerController : MonoBehaviour
         if (rss.player.GetComponent<HeroManager>().allowMove)
         {
             rss.player.transform.localRotation = Quaternion.Euler(FreeMatrix.Utility.Tween2D.PointTo(destination, rss.player.transform.localPosition, rss.player.transform.localRotation));
-            rss.player.transform.localPosition = Vector2.MoveTowards(rss.player.transform.localPosition, destination, rss.player.GetComponent<HeroManager>().moveSpeed * Time.deltaTime);
+            Vector3 newPlayerPos = Vector2.MoveTowards(rss.player.transform.localPosition, destination, rss.player.GetComponent<HeroManager>().moveSpeed * Time.deltaTime);
+            newPlayerPos = FreeMatrix.Utility.Convert2D.LocalToPixel(rss.displayCanvas.transform.localScale, newPlayerPos);
+            newPlayerPos = FreeMatrix.Utility.Convert2D.PixelToWorld(newPlayerPos);
+            rss.player.GetComponent<Rigidbody2D>().position = newPlayerPos;
 
             if (Vector2.Distance(rss.player.transform.localPosition, destination) < 300 * Time.deltaTime) rss.player.GetComponent<HeroManager>().allowMove = false;
         }

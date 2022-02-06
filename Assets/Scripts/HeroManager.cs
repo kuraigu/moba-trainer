@@ -32,7 +32,6 @@ public class HeroManager : MonoBehaviour
     private bool _abilityToggle2;
     private bool _abilityToggle3;
     private bool _abilityToggle4;
-    private bool onToggle;
 
     // Start is called before the first frame update
     void Start()
@@ -53,7 +52,6 @@ public class HeroManager : MonoBehaviour
         _abilityToggle2 = false;
         _abilityToggle3 = false;
         _abilityToggle4 = false;
-        onToggle = false;
 
         if (isPlayer)
         {
@@ -81,14 +79,12 @@ public class HeroManager : MonoBehaviour
         {
             ability1.Activate();
             _abilityToggle1 = false;
-            onToggle = true;
         }
 
         if (_abilityToggle2)
         {
             ability2.Activate();
             _abilityToggle2 = false;
-            onToggle = true;
         }
 
         if (_abilityToggle4)
@@ -97,8 +93,6 @@ public class HeroManager : MonoBehaviour
 
 
             _abilityToggle4 = false;
-            onToggle = true;
-
         }
 
         ability1.Update();
