@@ -12,9 +12,12 @@ public class ProjectileManager : MonoBehaviour
         _collideTag = null;
     }
 
-    void OnTriggerExit2D(Collider2D col)
+    void OnTriggerEnter2D(Collider2D col)
     {
-        _collideTag = col.transform.tag;
+        if (col.transform.tag == "Enemy")
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     public string collideTag { get { return _collideTag; } set { _collideTag = value; } }

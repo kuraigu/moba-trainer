@@ -18,7 +18,7 @@ public class PlayerManager : MonoBehaviour
         rss.player.transform.localPosition = Vector3.zero;
         rss.player.GetComponent<HeroManager>().isPlayer = true;
         rss.player.tag = "Player";
-        rss.player.GetComponent<SpriteRenderer>().color = colorScheme.player;
+        //rss.player.GetComponent<SpriteRenderer>().material.color = colorScheme.player;
         rss.heroesMisc.SetActive(false);
     }
 

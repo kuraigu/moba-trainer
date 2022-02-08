@@ -11,7 +11,7 @@ public class ColorScheme : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = new Color32(150, 184, 204, 255);
-        enemy = new Color32(219, 124, 112, 255);
+        player = new Color32(150, 184, 204, 100);
+        enemy = new Color32(219, 124, 112, 100);
     }
 }

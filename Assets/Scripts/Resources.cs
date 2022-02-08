@@ -30,38 +30,42 @@ public class Resources : MonoBehaviour
     public GameObject coolDownIndicator3;
     public GameObject coolDownIndicator4;
 
-    public GameObject score;
-
+    public GameObject scoreGameObject;
+    public GameObject scoreText;
 
     void Start()
     {
         sceneManager = FindObjectOfType<SceneManager>();
         displayCanvas = GameObject.Find("Display Canvas").GetComponent<Canvas>();
 
-        player = GameObject.Find("Player");
+        scoreGameObject = GameObject.Find("Score");
+        scoreText = GameObject.Find("ScoreText").transform.Find("Value").gameObject;
 
-        fireBall = GameObject.Find("Fireball Projectile");
+        if (sceneManager.currentScene != sceneManager.gameOver)
+        {
+            player = GameObject.Find("Player");
 
-        abilityHud = GameObject.Find("Ability Container");
+            fireBall = GameObject.Find("Fireball Projectile");
 
-        abilityHolder1 = GameObject.Find("Ability Holder 1");
-        abilityHolder2 = GameObject.Find("Ability Holder 2");
-        abilityHolder3 = GameObject.Find("Ability Holder 3");
-        abilityHolder4 = GameObject.Find("Ability Holder 4");
+            abilityHud = GameObject.Find("Ability Container");
 
-        coolDownIndicator1 = GameObject.Find("Cooldown Indicator 1").gameObject;
-        coolDownIndicator2 = GameObject.Find("Cooldown Indicator 2").gameObject;
-        coolDownIndicator3 = GameObject.Find("Cooldown Indicator 3").gameObject;
-        coolDownIndicator4 = GameObject.Find("Cooldown Indicator 4").gameObject;
+            abilityHolder1 = GameObject.Find("Ability Holder 1");
+            abilityHolder2 = GameObject.Find("Ability Holder 2");
+            abilityHolder3 = GameObject.Find("Ability Holder 3");
+            abilityHolder4 = GameObject.Find("Ability Holder 4");
 
-        coolDownIndicator1.SetActive(false);
-        coolDownIndicator2.SetActive(false);
-        coolDownIndicator3.SetActive(false);
-        coolDownIndicator4.SetActive(false);
+            coolDownIndicator1 = GameObject.Find("Cooldown Indicator 1").gameObject;
+            coolDownIndicator2 = GameObject.Find("Cooldown Indicator 2").gameObject;
+            coolDownIndicator3 = GameObject.Find("Cooldown Indicator 3").gameObject;
+            coolDownIndicator4 = GameObject.Find("Cooldown Indicator 4").gameObject;
 
-        heroesMisc = GameObject.Find("Heroes");
-        heroesMisc.SetActive(false);
+            coolDownIndicator1.SetActive(false);
+            coolDownIndicator2.SetActive(false);
+            coolDownIndicator3.SetActive(false);
+            coolDownIndicator4.SetActive(false);
 
-        score = GameObject.Find("Score").transform.Find("Score Value").gameObject;
+            heroesMisc = GameObject.Find("Heroes");
+            heroesMisc.SetActive(false);
+        }
     }
 }

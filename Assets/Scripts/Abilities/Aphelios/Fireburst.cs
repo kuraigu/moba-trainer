@@ -28,6 +28,7 @@ public class Fireburst : Ability
         isPassive = false;
 
         isActive = true;
+        isDestroy = false;
 
         attackSpeed = 700;
 
@@ -71,13 +72,13 @@ public class Fireburst : Ability
 
                 else if (i > projectile.Count - 3 && i % 2 == 0)
                 {
-                    float angleTemp = angle.z - 30;
+                    float angleTemp = angle.z - 15;
                     projectile[i].transform.localRotation = Quaternion.Euler(new Vector3(angle.x, angle.y, angleTemp));
                 }
 
                 else if (i > projectile.Count - 3 && i % 2 == 1)
                 {
-                    float angleTemp = angle.z + 30;
+                    float angleTemp = angle.z + 15;
                     projectile[i].transform.localRotation = Quaternion.Euler(new Vector3(angle.x, angle.y, angleTemp));
                 }
 
@@ -111,10 +112,20 @@ public class Fireburst : Ability
         {
             for (int i = 0; i < projectile.Count; i++)
             {
+                if (projectile[i] == null)
+                {
+                    projectile.RemoveAt(i);
+                    oldPositionList.RemoveAt(i);
+                }
+            }
+
+            for (int i = 0; i < projectile.Count; i++)
+            {
+
                 projectile[i].GetComponent<Rigidbody2D>().velocity = projectile[i].transform.right * new Vector2(thrust, thrust);
 
-                if (Vector2.Distance(oldPositionList[i], projectile[i].transform.localPosition) >= FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale.x, range)
-                || projectile[i].GetComponent<ProjectileManager>().collideTag == "Enemy")
+
+                if (Vector2.Distance(oldPositionList[i], projectile[i].transform.localPosition) >= FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale.x, range))
                 {
                     Destroy(projectile[i]);
                     projectile.RemoveAt(i);

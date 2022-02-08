@@ -18,6 +18,7 @@ public class Ability : ScriptableObject
     protected float _range;
 
     protected bool _isActive;
+    protected bool _isDestroy;
 
     protected float _attackSpeed;
     protected float _moveSpeed;
@@ -49,6 +50,7 @@ public class Ability : ScriptableObject
     public float range { get { return _range; } set { _range = value; } }
 
     public bool isActive { get { return _isActive; } set { _isActive = value; } }
+    public bool isDestroy { get { return _isDestroy; } set { _isDestroy = value; } }
 
     public float attackSpeed { get { return _attackSpeed; } set { _attackSpeed = value; } }
     public float moveSpeed { get { return _moveSpeed; } set { _moveSpeed = value; } }

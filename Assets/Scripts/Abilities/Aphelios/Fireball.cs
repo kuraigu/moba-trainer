@@ -87,16 +87,28 @@ public class Fireball : Ability
         {
             for (int i = 0; i < projectile.Count; i++)
             {
+                if (projectile[i] == null)
+                {
+                    projectile.RemoveAt(i);
+                    oldPositionList.RemoveAt(i);
+                }
+            }
+
+            for (int i = 0; i < projectile.Count; i++)
+            {
+
                 projectile[i].GetComponent<Rigidbody2D>().velocity = projectile[i].transform.right * new Vector2(thrust, thrust);
 
-                if (Vector2.Distance(oldPositionList[i], projectile[i].transform.localPosition) >= FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale.x, range)
-                || projectile[i].GetComponent<ProjectileManager>().collideTag == "Enemy")
+
+                if (Vector2.Distance(oldPositionList[i], projectile[i].transform.localPosition) >= FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale.x, range))
                 {
                     Destroy(projectile[i]);
                     projectile.RemoveAt(i);
                     oldPositionList.RemoveAt(i);
                 }
             }
+
+
         }
     }
 }

@@ -5,8 +5,8 @@ using UnityEngine;
 public class SceneManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    public static string gameOver;
-
+    public string currentScene;
+    public string gameOver;
 
     void Start()
     {
@@ -15,6 +15,8 @@ public class SceneManager : MonoBehaviour
 
     public void GameOver()
     {
+        PlayerPrefs.SetInt("score", GameObject.Find("Score").GetComponent<Score>().score);
+        currentScene = gameOver;
         UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(gameOver);
     }
 }
