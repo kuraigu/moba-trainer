@@ -20,7 +20,8 @@ public class EnemyController : MonoBehaviour
         colorScheme = FindObjectOfType<ColorScheme>();
 
         _isDestroy = false;
-        //this.gameObject.GetComponent<SpriteRenderer>().material.color = colorScheme.enemy;
+
+        this.gameObject.GetComponent<SpriteRenderer>().material.SetColor("_Color", colorScheme.enemy);
     }
 
     void Update()
@@ -42,6 +43,7 @@ public class EnemyController : MonoBehaviour
 
         if (isDestroy)
         {
+            GetComponent<Collider2D>().enabled = false;
             float fade = GetComponent<SpriteRenderer>().material.GetFloat("_Fade");
 
             fade -= Time.deltaTime;
@@ -53,8 +55,6 @@ public class EnemyController : MonoBehaviour
                 fade = 1f;
                 Destroy(this.gameObject);
             }
-
-            Debug.Log(fade);
         }
     }
 
@@ -76,6 +76,7 @@ public class EnemyController : MonoBehaviour
         {
             if (col.transform.tag == "Player Projectile")
             {
+                this.gameObject.GetComponent<SpriteRenderer>().material.SetInt("_IsOutlineVisible", 0);
                 rss.scoreGameObject.GetComponent<Score>().score += 100;
 
                 isDestroy = true;
@@ -84,9 +85,15 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void onMouseOver()
+    void OnMouseEnter()
     {
-        this.gameObject.GetComponent<SpriteRenderer>().material.SetColor("_OutlineColor", colorScheme.enemy);
+        this.gameObject.GetComponent<SpriteRenderer>().material.SetInt("_IsOutlineVisible", 1);
+        this.gameObject.GetComponent<SpriteRenderer>().material.SetColor("_OutlineColor", colorScheme.enemyHighLight);
+    }
+
+    void OnMouseExit()
+    {
+        this.gameObject.GetComponent<SpriteRenderer>().material.SetInt("_IsOutlineVisible", 0);
     }
 
     public GameObject target { get { return _target; } set { _target = value; } }

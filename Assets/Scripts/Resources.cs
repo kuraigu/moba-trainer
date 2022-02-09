@@ -33,6 +33,9 @@ public class Resources : MonoBehaviour
     public GameObject scoreGameObject;
     public GameObject scoreText;
 
+    // Cursors
+    public GameObject generalCursor;
+
     void Start()
     {
         sceneManager = FindObjectOfType<SceneManager>();
@@ -66,6 +69,8 @@ public class Resources : MonoBehaviour
 
             heroesMisc = GameObject.Find("Heroes");
             heroesMisc.SetActive(false);
+
+            generalCursor = GameObject.Find("General Cursor");
         }
     }
 }
