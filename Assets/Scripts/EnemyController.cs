@@ -6,7 +6,6 @@ using TMPro;
 public class EnemyController : MonoBehaviour
 {
     private static Resources rss;
-    private static Materials materials;
 
     private static ColorScheme colorScheme;
     private GameObject _target;
@@ -16,7 +15,6 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         rss = FindObjectOfType<Resources>();
-        materials = FindObjectOfType<Materials>();
         colorScheme = FindObjectOfType<ColorScheme>();
 
         _isDestroy = false;

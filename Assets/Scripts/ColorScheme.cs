@@ -16,6 +16,6 @@ public class ColorScheme : MonoBehaviour
         player = new Color32(150, 184, 204, 255);
         enemy = new Color32(219, 124, 112, 255);
 
-        enemyHighLight = new Color32(255, 64, 63, 255);
+        enemyHighLight = new Color32(133, 50, 44, 255);
     }
 }

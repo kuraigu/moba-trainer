@@ -6,6 +6,7 @@ using UnityEngine;
 public class Fireball : Ability
 {
     private static Resources rss;
+    private static SceneManager scene;
 
     private GameObject projectileReference;
     private List<GameObject> projectile;
@@ -44,8 +45,6 @@ public class Fireball : Ability
         if (isActive)
         {
             parent.GetComponent<HeroManager>().allowMove = false;
-
-            onMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             onMousePosition = FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale, onMousePosition * 100);
 
             projectile.Add(Instantiate(projectileReference));
@@ -53,7 +52,10 @@ public class Fireball : Ability
 
             projectile[tempIndex].transform.SetParent(rss.displayCanvas.transform, false);
             projectile[tempIndex].transform.localPosition = parent.transform.localPosition;
-            projectile[tempIndex].tag = "Player Projectile";
+
+            if (parent.GetComponent<HeroManager>().isPlayer) projectile[tempIndex].tag = "Player Projectile";
+            else projectile[tempIndex].tag = "Enemy Projectile";
+
 
             Vector2 direction = onMousePosition - projectile[tempIndex].transform.localPosition;
 

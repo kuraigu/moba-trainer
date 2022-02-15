@@ -199,6 +199,7 @@ MonoBehaviour:
   coolDownIndicator4: {fileID: 0}
   scoreGameObject: {fileID: 0}
   scoreText: {fileID: 0}
+  generalCursor: {fileID: 0}
 --- !u!1 &658310129
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,7 +537,7 @@ GameObject:
   - component: {fileID: 1407435289}
   - component: {fileID: 1407435288}
   m_Layer: 5
-  m_Name: Value
+  m_Name: ScoreValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

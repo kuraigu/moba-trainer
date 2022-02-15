@@ -16,10 +16,11 @@ public class PlayerManager : MonoBehaviour
         rss.player = Instantiate(rss.heroesMisc.transform.Find("Aphelios").gameObject);
         rss.player.transform.SetParent(rss.displayCanvas.transform, false);
         rss.player.transform.localPosition = Vector3.zero;
-        rss.player.GetComponent<HeroManager>().isPlayer = true;
         rss.player.tag = "Player";
         rss.player.GetComponent<SpriteRenderer>().material.SetColor("_Color", colorScheme.player);
         rss.heroesMisc.SetActive(false);
+        rss.player.GetComponent<HeroManager>().isPlayer = true;
+
     }
 
     // Update is called once per frame

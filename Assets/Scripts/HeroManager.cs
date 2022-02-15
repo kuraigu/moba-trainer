@@ -33,6 +33,8 @@ public class HeroManager : MonoBehaviour
     private bool _abilityToggle3;
     private bool _abilityToggle4;
 
+    private Vector2 _target;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,7 +55,7 @@ public class HeroManager : MonoBehaviour
         _abilityToggle3 = false;
         _abilityToggle4 = false;
 
-        if (isPlayer)
+        if (_isPlayer)
         {
             coolDownIndicatorOriginalScale = rss.coolDownIndicator1.transform.localScale;
             coolDownIndicatorOriginalPos = rss.coolDownIndicator1.transform.localPosition;
@@ -67,31 +69,35 @@ public class HeroManager : MonoBehaviour
         ability2.parent = gameObject;
         ability4.parent = gameObject;
 
-        if (isPlayer)
+        if (_isPlayer)
         {
-            setCoolDownIndicator(ability1, rss.abilityHolder1, rss.coolDownIndicator1);
-            setCoolDownIndicator(ability2, rss.abilityHolder2, rss.coolDownIndicator2);
+            SetCoolDownIndicator(ability1, rss.abilityHolder1, rss.coolDownIndicator1);
+            SetCoolDownIndicator(ability2, rss.abilityHolder2, rss.coolDownIndicator2);
 
-            setCoolDownIndicator(ability4, rss.abilityHolder4, rss.coolDownIndicator4);
+            SetCoolDownIndicator(ability4, rss.abilityHolder4, rss.coolDownIndicator4);
         }
 
         if (_abilityToggle1)
         {
+            SetTarget(ability1);
+
             ability1.Activate();
             _abilityToggle1 = false;
         }
 
         if (_abilityToggle2)
         {
+            SetTarget(ability2);
+
             ability2.Activate();
             _abilityToggle2 = false;
         }
 
         if (_abilityToggle4)
         {
+            SetTarget(ability4);
+
             ability4.Activate();
-
-
             _abilityToggle4 = false;
         }
 
@@ -108,12 +114,11 @@ public class HeroManager : MonoBehaviour
         ability4.FixedUpdate();
     }
 
-    private void setCoolDownIndicator(Ability ability, GameObject abilityHolder, GameObject coolDownIndicator)
+    private void SetCoolDownIndicator(Ability ability, GameObject abilityHolder, GameObject coolDownIndicator)
     {
         if (ability.isActive)
         {
             coolDownIndicator.transform.localScale = coolDownIndicatorOriginalScale;
-            coolDownIndicator.transform.localPosition = rss.abilityHolder1.transform.localPosition;
             coolDownIndicator.SetActive(false);
         }
 
@@ -124,11 +129,21 @@ public class HeroManager : MonoBehaviour
             Vector3 newScale = coolDownIndicator.transform.localScale;
             newScale.y = FreeMatrix.Utility.Tween2D.ScaleDown(coolDownIndicator.transform.localScale.y, (coolDownIndicatorOriginalScale.y) / ability.coolDownTime);
             coolDownIndicator.transform.localScale = newScale;
-            Vector3 newPos = abilityHolder.transform.localPosition;
-            newPos.y = (abilityHolder.transform.localPosition.y + (abilityHolder.transform.localScale.y / 2)) - (coolDownIndicator.transform.localScale.y / 2);
-            coolDownIndicator.transform.localPosition = newPos;
         }
 
+    }
+
+    private void SetTarget(Ability ability)
+    {
+        if (_isPlayer)
+        {
+            ability.onMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        }
+
+        else
+        {
+            ability.onMousePosition = _target;
+        }
     }
 
     // Properties
@@ -143,4 +158,6 @@ public class HeroManager : MonoBehaviour
     public bool abilityToggle2 { get { return _abilityToggle2; } set { _abilityToggle2 = value; } }
     public bool abilityToggle3 { get { return _abilityToggle3; } set { _abilityToggle3 = value; } }
     public bool abilityToggle4 { get { return _abilityToggle4; } set { _abilityToggle4 = value; } }
+
+    public Vector2 target { get { return _target; } set { _target = value; } }
 }

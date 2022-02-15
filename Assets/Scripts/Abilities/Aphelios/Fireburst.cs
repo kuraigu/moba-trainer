@@ -46,7 +46,6 @@ public class Fireburst : Ability
         {
             parent.GetComponent<HeroManager>().allowMove = false;
 
-            onMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             onMousePosition = FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale, onMousePosition * 100);
 
             Vector2 direction = new Vector3();
@@ -82,7 +81,8 @@ public class Fireburst : Ability
                     projectile[i].transform.localRotation = Quaternion.Euler(new Vector3(angle.x, angle.y, angleTemp));
                 }
 
-                projectile[i].tag = "Player Projectile";
+                if (parent.GetComponent<HeroManager>().isPlayer) projectile[i].tag = "Player Projectile";
+                else projectile[i].tag = "Enemy Projectile";
             }
 
             oldPositionList.Add(parent.transform.localPosition);

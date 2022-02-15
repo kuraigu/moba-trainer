@@ -42,7 +42,7 @@ public class Resources : MonoBehaviour
         displayCanvas = GameObject.Find("Display Canvas").GetComponent<Canvas>();
 
         scoreGameObject = GameObject.Find("Score");
-        scoreText = GameObject.Find("ScoreText").transform.Find("Value").gameObject;
+        scoreText = GameObject.Find("ScoreValue");
 
         if (sceneManager.currentScene != sceneManager.gameOver)
         {
