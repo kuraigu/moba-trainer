@@ -60,14 +60,16 @@ public class HeroManager : MonoBehaviour
             coolDownIndicatorOriginalScale = rss.coolDownIndicator1.transform.localScale;
             coolDownIndicatorOriginalPos = rss.coolDownIndicator1.transform.localPosition;
         }
+
+        _target = Vector3.zero;
     }
 
     // Update is called once per frame
     void Update()
     {
-        ability1.parent = gameObject;
-        ability2.parent = gameObject;
-        ability4.parent = gameObject;
+        ability1.parent = this.gameObject;
+        ability2.parent = this.gameObject;
+        ability4.parent = this.gameObject;
 
         if (_isPlayer)
         {
@@ -138,9 +140,10 @@ public class HeroManager : MonoBehaviour
         if (_isPlayer)
         {
             ability.onMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            ability.onMousePosition = FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale, ability.onMousePosition * 100);
         }
 
-        else
+        else if (!_isPlayer)
         {
             ability.onMousePosition = _target;
         }

@@ -47,4 +47,9 @@ public class SceneManager : MonoBehaviour
         PlayerPrefs.SetInt("score", GameObject.Find("Score").GetComponent<Score>().score);
         UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(gameOver);
     }
+
+    public void ExitGame()
+    {
+        UnityEngine.Application.Quit();
+    }
 }

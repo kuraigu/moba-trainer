@@ -46,8 +46,6 @@ public class Fireburst : Ability
         {
             parent.GetComponent<HeroManager>().allowMove = false;
 
-            onMousePosition = FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale, onMousePosition * 100);
-
             Vector2 direction = new Vector3();
             Vector3 angle = new Vector3();
 
@@ -91,6 +89,8 @@ public class Fireburst : Ability
 
             isActive = false;
             coolDownTimeRun = true;
+
+            Debug.Log(onMousePosition);
         }
     }
 

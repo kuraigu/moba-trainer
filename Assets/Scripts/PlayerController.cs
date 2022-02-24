@@ -31,33 +31,32 @@ public class PlayerController : MonoBehaviour
             rss.player.GetComponent<HeroManager>().allowMove = true;
         }
 
-        if (scene.currentScene == "Skillshot")
+
+        if (Input.GetKeyDown(keybind.ability1))
         {
-            if (Input.GetKeyDown(keybind.ability1))
-            {
-                rss.player.GetComponent<HeroManager>().abilityToggle1 = true;
-            }
-
-            if (Input.GetKeyDown(keybind.ability2))
-            {
-                rss.player.GetComponent<HeroManager>().abilityToggle2 = true;
-            }
-
-            if (Input.GetKeyDown(keybind.ability3))
-            {
-                rss.player.GetComponent<HeroManager>().abilityToggle3 = true;
-            }
-
-            if (Input.GetKeyDown(keybind.ability4))
-            {
-                rss.player.GetComponent<HeroManager>().abilityToggle4 = true;
-            }
-
-            if (Input.GetKeyDown(keybind.holdPosition))
-            {
-                rss.player.GetComponent<HeroManager>().allowMove = false;
-            }
+            rss.player.GetComponent<HeroManager>().abilityToggle1 = true;
         }
+
+        if (Input.GetKeyDown(keybind.ability2))
+        {
+            rss.player.GetComponent<HeroManager>().abilityToggle2 = true;
+        }
+
+        if (Input.GetKeyDown(keybind.ability3))
+        {
+            rss.player.GetComponent<HeroManager>().abilityToggle3 = true;
+        }
+
+        if (Input.GetKeyDown(keybind.ability4))
+        {
+            rss.player.GetComponent<HeroManager>().abilityToggle4 = true;
+        }
+
+        if (Input.GetKeyDown(keybind.holdPosition))
+        {
+            rss.player.GetComponent<HeroManager>().allowMove = false;
+        }
+
     }
 
     void FixedUpdate()
