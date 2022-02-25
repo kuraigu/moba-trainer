@@ -22,6 +22,8 @@ public class EnemyController : MonoBehaviour
     private Vector2 _origin;
     private Vector2 _destination;
 
+    private bool _reachedDestination;
+
     private bool _isDestroy;
 
     private STATE _state;
@@ -32,7 +34,11 @@ public class EnemyController : MonoBehaviour
         scene = FindObjectOfType<SceneManager>();
         colorScheme = FindObjectOfType<ColorScheme>();
 
-        _isDestroy = false;
+        this.gameObject.GetComponent<HeroManager>().hero.bonusMoveSpeed = -(float)(0.25 * this.gameObject.GetComponent<HeroManager>().hero.moveSpeed);
+
+        _reachedDestination = false;
+
+        isDestroy = false;
 
         this.gameObject.GetComponent<SpriteRenderer>().material.SetColor("_Color", colorScheme.enemy);
         this.gameObject.GetComponent<HeroManager>().allowMove = true;
@@ -45,7 +51,7 @@ public class EnemyController : MonoBehaviour
 
         if (scene.currentScene == scene.dodging)
         {
-            waitTime = new FreeMatrix.Utility.Time(FreeMatrix.Utility.Time.TYPE.COUNTDOWN, 1);
+            waitTime = new FreeMatrix.Utility.Time(FreeMatrix.Utility.Time.TYPE.COUNTDOWN, 0.5f);
             _state = STATE.FOLLOW;
         }
 
@@ -61,15 +67,23 @@ public class EnemyController : MonoBehaviour
         {
             if (_state == STATE.PATROL)
             {
-
-
                 if (scene.currentScene == scene.skillShot)
                 {
                     if (Vector2.Distance(this.gameObject.transform.localPosition, _destination) < 0.1)
                     {
                         _state = STATE.FOLLOW;
                     }
+                }
 
+                if (scene.currentScene == scene.dodging)
+                {
+                    _destination = _origin;
+
+                    if (Vector2.Distance(this.gameObject.transform.localPosition, _destination) < 0.1 && _destination == _origin)
+                    {
+                        isDestroy = true;
+                        this.gameObject.GetComponent<HeroManager>().allowMove = false;
+                    }
                 }
             }
 
@@ -86,16 +100,10 @@ public class EnemyController : MonoBehaviour
                     {
                         _destination = _target.transform.localPosition;
 
-                        if (Vector2.Distance(this.gameObject.transform.localPosition, _destination) < 500)
+                        if (Vector2.Distance(this.gameObject.transform.localPosition, _destination) < 450)
                         {
                             _state = STATE.ATTACK;
                         }
-                    }
-
-                    if (Vector2.Distance(this.gameObject.transform.localPosition, _destination) < 0.1 && _destination == _origin)
-                    {
-                        isDestroy = true;
-                        this.gameObject.GetComponent<HeroManager>().allowMove = false;
                     }
                 }
             }
@@ -104,30 +112,36 @@ public class EnemyController : MonoBehaviour
             {
                 if (scene.currentScene == scene.dodging)
                 {
-                    if (Vector2.Distance(this.gameObject.transform.localPosition, _destination) <= 500 && _destination != _origin)
+                    if (Vector2.Distance(this.gameObject.transform.localPosition, _destination) <= 450 && _destination != _origin)
                     {
                         this.gameObject.GetComponent<HeroManager>().allowMove = false;
                         this.gameObject.GetComponent<HeroManager>().target = _target.transform.localPosition;
-                        this.gameObject.GetComponent<HeroManager>().abilityToggle1 = true;
+                        _reachedDestination = true;
                     }
 
-                    if (!this.gameObject.GetComponent<HeroManager>().allowMove)
+                    if (_reachedDestination)
                     {
-                        _destination = _origin;
-
                         if (waitTime.Update())
                         {
+                            this.gameObject.GetComponent<HeroManager>().abilityToggle1 = true;
+                        }
+
+                        if (this.gameObject.GetComponent<HeroManager>().ability1.coolDownTimeRun)
+                        {
                             this.gameObject.GetComponent<HeroManager>().allowMove = true;
-                            _state = STATE.PATROL;
+                            state = STATE.PATROL;
                         }
                     }
+
+
                 }
             }
 
             if (this.gameObject.GetComponent<HeroManager>().allowMove)
             {
                 this.gameObject.transform.localRotation = Quaternion.Euler(FreeMatrix.Utility.Tween2D.PointTo(_destination, this.gameObject.transform.localPosition, this.gameObject.transform.localRotation));
-                Vector3 newEnemyPos = Vector2.MoveTowards(this.gameObject.transform.localPosition, _destination, (this.gameObject.GetComponent<HeroManager>().moveSpeed - 100) * Time.deltaTime);
+                Vector3 newEnemyPos = Vector2.MoveTowards(this.gameObject.transform.localPosition, _destination, (this.gameObject.GetComponent<HeroManager>().hero.moveSpeed +
+                this.gameObject.GetComponent<HeroManager>().hero.bonusMoveSpeed) * Time.deltaTime);
                 newEnemyPos = FreeMatrix.Utility.Convert2D.LocalToPixel(rss.displayCanvas.transform.localScale, newEnemyPos);
                 newEnemyPos = FreeMatrix.Utility.Convert2D.PixelToWorld(newEnemyPos);
 

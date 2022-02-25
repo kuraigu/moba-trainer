@@ -12,7 +12,6 @@ public class HeroManager : MonoBehaviour
 
     private bool _allowMove;
     private bool _isPlayer;
-    private float _moveSpeed;
 
     // Abilities
     [SerializeField] Ability ability1Ref;
@@ -20,9 +19,9 @@ public class HeroManager : MonoBehaviour
     [SerializeField] Ability ability3Ref;
     [SerializeField] Ability ability4Ref;
 
-    Ability ability1;
-    Ability ability2;
-    Ability ability4;
+    Ability _ability1;
+    Ability _ability2;
+    Ability _ability4;
 
     Vector3 coolDownIndicatorOriginalScale;
     Vector3 coolDownIndicatorOriginalPos;
@@ -40,15 +39,14 @@ public class HeroManager : MonoBehaviour
     {
         rss = GameObject.Find("Game Script").GetComponent<Resources>();
         _allowMove = false;
-        _moveSpeed = _hero.moveSpeed;
 
-        ability1 = Instantiate(ability1Ref);
-        ability2 = Instantiate(ability2Ref);
-        ability4 = Instantiate(ability4Ref);
+        _ability1 = Instantiate(ability1Ref);
+        _ability2 = Instantiate(ability2Ref);
+        _ability4 = Instantiate(ability4Ref);
 
-        ability1.Start();
-        ability2.Start();
-        ability4.Start();
+        _ability1.Start();
+        _ability2.Start();
+        _ability4.Start();
 
         _abilityToggle1 = false;
         _abilityToggle2 = false;
@@ -67,53 +65,53 @@ public class HeroManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ability1.parent = this.gameObject;
-        ability2.parent = this.gameObject;
-        ability4.parent = this.gameObject;
+        _ability1.parent = this.gameObject;
+        _ability2.parent = this.gameObject;
+        _ability4.parent = this.gameObject;
 
         if (_isPlayer)
         {
-            SetCoolDownIndicator(ability1, rss.abilityHolder1, rss.coolDownIndicator1);
-            SetCoolDownIndicator(ability2, rss.abilityHolder2, rss.coolDownIndicator2);
+            SetCoolDownIndicator(_ability1, rss.abilityHolder1, rss.coolDownIndicator1);
+            SetCoolDownIndicator(_ability2, rss.abilityHolder2, rss.coolDownIndicator2);
 
-            SetCoolDownIndicator(ability4, rss.abilityHolder4, rss.coolDownIndicator4);
+            SetCoolDownIndicator(_ability4, rss.abilityHolder4, rss.coolDownIndicator4);
         }
 
         if (_abilityToggle1)
         {
-            SetTarget(ability1);
+            SetTarget(_ability1);
 
-            ability1.Activate();
+            _ability1.Activate();
             _abilityToggle1 = false;
         }
 
         if (_abilityToggle2)
         {
-            SetTarget(ability2);
+            SetTarget(_ability2);
 
-            ability2.Activate();
+            _ability2.Activate();
             _abilityToggle2 = false;
         }
 
         if (_abilityToggle4)
         {
-            SetTarget(ability4);
+            SetTarget(_ability4);
 
-            ability4.Activate();
+            _ability4.Activate();
             _abilityToggle4 = false;
         }
 
-        ability1.Update();
-        ability2.Update();
-        ability4.Update();
+        _ability1.Update();
+        _ability2.Update();
+        _ability4.Update();
 
     }
 
     void FixedUpdate()
     {
-        ability1.FixedUpdate();
-        ability2.FixedUpdate();
-        ability4.FixedUpdate();
+        _ability1.FixedUpdate();
+        _ability2.FixedUpdate();
+        _ability4.FixedUpdate();
     }
 
     private void SetCoolDownIndicator(Ability ability, GameObject abilityHolder, GameObject coolDownIndicator)
@@ -154,13 +152,15 @@ public class HeroManager : MonoBehaviour
     public Hero hero { get { return _hero; } }
     public bool allowMove { get { return _allowMove; } set { _allowMove = value; } }
     public bool isPlayer { get { return _isPlayer; } set { _isPlayer = value; } }
-    public float moveSpeed { get { return _moveSpeed; } }
-
 
     public bool abilityToggle1 { get { return _abilityToggle1; } set { _abilityToggle1 = value; } }
     public bool abilityToggle2 { get { return _abilityToggle2; } set { _abilityToggle2 = value; } }
     public bool abilityToggle3 { get { return _abilityToggle3; } set { _abilityToggle3 = value; } }
     public bool abilityToggle4 { get { return _abilityToggle4; } set { _abilityToggle4 = value; } }
+
+    public Ability ability1 { get { return _ability1; } }
+    public Ability ability2 { get { return _ability2; } }
+    public Ability ability4 { get { return _ability4; } }
 
     public Vector2 target { get { return _target; } set { _target = value; } }
 }
