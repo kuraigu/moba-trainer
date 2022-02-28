@@ -5,32 +5,38 @@ using TMPro;
 
 public class Score : MonoBehaviour
 {
-    private static Resources rss;
-    private string currentScene;
+    private static Resources _rss;
+    private Preferences _preferences;
+    private string _currentScene;
 
     private int _oldScore;
     private int _score;
 
     void Start()
     {
-        rss = GameObject.Find("Game Script").GetComponent<Resources>();
+        _rss = GameObject.Find("Game Script").GetComponent<Resources>();
+        _preferences = Preferences.GetInstance();
 
         _oldScore = 0;
         _score = 0;
 
-        if (rss.sceneManager.currentScene == rss.sceneManager.gameOver)
+        if (_rss.sceneManager.currentScene == _rss.sceneManager.gameOver)
         {
             _score = PlayerPrefs.GetInt("score");
+            _rss.scoreText.GetComponent<TextMeshProUGUI>().text += _score.ToString();
         }
     }
 
     void Update()
     {
-
-        if (_score > _oldScore)
+        if (_rss.sceneManager.currentScene != _rss.sceneManager.gameOver)
         {
-            rss.scoreText.GetComponent<TextMeshProUGUI>().text = _score.ToString();
-            _oldScore = _score;
+            if (_score > _oldScore)
+            {
+                _rss.scoreText.GetComponent<TextMeshProUGUI>().text = _score.ToString();
+                _oldScore = _score;
+            }
+
         }
     }
 

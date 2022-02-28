@@ -4,30 +4,32 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    private static Resources rss;
-    private static SceneManager scene;
+    private static Resources _rss;
+    private static SceneManager _scene;
     private List<GameObject> _enemy;
 
-    private FreeMatrix.Utility.Time spawnTime;
+    private FreeMatrix.Utility.Time _spawnTime;
 
-    private int maxEnemy;
-    private int currentEnemy;
-    private int incrementEnemyCounter;
+    private int _maxEnemy;
+    private int _currentEnemy;
+    private int _incrementEnemyCounter;
+    private int _lastRand;
 
     // Start is called before the first frame update
     void Start()
     {
-        rss = FindObjectOfType<Resources>();
-        scene = FindObjectOfType<SceneManager>();
+        _rss = FindObjectOfType<Resources>();
+        _scene = FindObjectOfType<SceneManager>();
         _enemy = new List<GameObject>();
 
-        spawnTime = new FreeMatrix.Utility.Time(FreeMatrix.Utility.Time.TYPE.COUNTDOWN, 3);
+        _spawnTime = new FreeMatrix.Utility.Time(FreeMatrix.Utility.Time.TYPE.COUNTDOWN, 3);
 
-        maxEnemy = 10;
-        currentEnemy = 3;
-        incrementEnemyCounter = 0;
+        _maxEnemy = 10;
+        _currentEnemy = 3;
+        _incrementEnemyCounter = 0;
+        _lastRand = -1;
 
-        for (int i = 0; i < currentEnemy; i++)
+        for (int i = 0; i < _currentEnemy; i++)
         {
             _enemy = Spawn();
         }
@@ -36,22 +38,22 @@ public class EnemyManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (spawnTime.Update())
+        if (_spawnTime.Update())
         {
 
-            for (int i = 0; i < currentEnemy - _enemy.Count; i++)
+            for (int i = 0; i < _currentEnemy - _enemy.Count; i++)
             {
                 _enemy = Spawn();
             }
 
-            incrementEnemyCounter++;
+            _incrementEnemyCounter++;
 
-            if (incrementEnemyCounter >= 2)
+            if (_incrementEnemyCounter >= 3)
             {
-                if (currentEnemy < maxEnemy)
+                if (_currentEnemy < _maxEnemy)
                 {
-                    incrementEnemyCounter = 0;
-                    currentEnemy++;
+                    _incrementEnemyCounter = 0;
+                    _currentEnemy++;
                 }
             }
         }
@@ -75,13 +77,23 @@ public class EnemyManager : MonoBehaviour
         cameraScale.x = (Camera.main.aspect * cameraScale.y);
         Vector3 cameraPos = Camera.main.transform.localPosition * 100;
 
-        cameraScale = FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale, cameraScale);
-        cameraPos = FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale, cameraPos);
+        cameraScale = FreeMatrix.Utility.Convert2D.PixelToLocal(_rss.displayCanvas.transform.localScale, cameraScale);
+        cameraPos = FreeMatrix.Utility.Convert2D.PixelToLocal(_rss.displayCanvas.transform.localScale, cameraPos);
 
-        int side = Random.Range(0, 4);
-        side = Random.Range(0, 4);
-        side = Random.Range(0, 4);
-        side = Random.Range(0, 4);
+        bool generate = true;
+        int side = 0;
+
+        while (generate)
+        {
+            UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
+            side = UnityEngine.Random.Range(0, 4);
+
+            if (side != _lastRand)
+            {
+                _lastRand = side;
+                generate = false;
+            }
+        }
 
         // Top
         if (side == 0)
@@ -116,7 +128,7 @@ public class EnemyManager : MonoBehaviour
 
     private GameObject InitEnemy(GameObject enemy)
     {
-        enemy.transform.SetParent(rss.displayCanvas.transform, false);
+        enemy.transform.SetParent(_rss.displayCanvas.transform, false);
         enemy.GetComponent<HeroManager>().isPlayer = false;
         enemy.AddComponent<EnemyController>();
 
@@ -126,7 +138,7 @@ public class EnemyManager : MonoBehaviour
         newEnemyPos = GenerateSpawn(newEnemyPos);
 
         enemy.transform.localPosition = newEnemyPos;
-        enemy.GetComponent<EnemyController>().target = rss.player;
+        enemy.GetComponent<EnemyController>().target = _rss.player;
         enemy.GetComponent<EnemyController>().origin = newEnemyPos;
         enemy.transform.tag = "Enemy";
 
@@ -135,8 +147,8 @@ public class EnemyManager : MonoBehaviour
 
     private List<GameObject> Spawn()
     {
-        rss.heroesMisc.SetActive(true);
-        _enemy.Add(Instantiate(rss.heroesMisc.transform.Find("Aphelios").gameObject));
+        _rss.heroesMisc.SetActive(true);
+        _enemy.Add(Instantiate(_rss.heroesMisc.transform.Find("Aphelios").gameObject));
         _enemy[_enemy.Count - 1] = InitEnemy(_enemy[_enemy.Count - 1]);
 
         Vector3 cameraScale = Vector3.zero;
@@ -144,8 +156,8 @@ public class EnemyManager : MonoBehaviour
         cameraScale.x = (Camera.main.aspect * cameraScale.y);
         Vector3 cameraPos = Camera.main.transform.localPosition * 100;
 
-        cameraScale = FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale, cameraScale);
-        cameraPos = FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale, cameraPos);
+        cameraScale = FreeMatrix.Utility.Convert2D.PixelToLocal(_rss.displayCanvas.transform.localScale, cameraScale);
+        cameraPos = FreeMatrix.Utility.Convert2D.PixelToLocal(_rss.displayCanvas.transform.localScale, cameraPos);
 
         Vector3 newEnemyPos = Vector3.zero;
 
@@ -155,7 +167,7 @@ public class EnemyManager : MonoBehaviour
         destination.y = UnityEngine.Random.Range(cameraPos.y + -(cameraScale.y / 2), cameraPos.y + (cameraScale.y / 2));
         _enemy[_enemy.Count - 1].GetComponent<EnemyController>().destination = destination;
 
-        rss.heroesMisc.SetActive(false);
+        _rss.heroesMisc.SetActive(false);
 
         return _enemy;
     }

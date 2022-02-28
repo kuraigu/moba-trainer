@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private static Resources rss;
-    private static SceneManager scene;
-    private static Keybind keybind;
+    private static Resources _rss;
+    private static SceneManager _scene;
+    private static Keybind _keybind;
 
-    private Vector3 onRightClickPosition;
-    private Vector3 destination;
+    private Vector3 _onRightClickPosition;
+    private Vector3 _destination;
 
     // Start is called before the first frame update
     void Start()
     {
-        rss = FindObjectOfType<Resources>();
-        scene = FindObjectOfType<SceneManager>();
-        keybind = FindObjectOfType<Keybind>();
+        _rss = FindObjectOfType<Resources>();
+        _scene = FindObjectOfType<SceneManager>();
+        _keybind = FindObjectOfType<Keybind>();
     }
 
     // Update is called once per frame
@@ -24,53 +24,53 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetMouseButton(1))
         {
-            onRightClickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            destination = FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale, onRightClickPosition * 100);
+            _onRightClickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            _destination = FreeMatrix.Utility.Convert2D.PixelToLocal(_rss.displayCanvas.transform.localScale, _onRightClickPosition * 100);
 
 
-            rss.player.GetComponent<HeroManager>().allowMove = true;
+            _rss.player.GetComponent<HeroManager>().allowMove = true;
         }
 
 
-        if (Input.GetKeyDown(keybind.ability1))
+        if (Input.GetKeyDown(_keybind.ability1))
         {
-            rss.player.GetComponent<HeroManager>().abilityToggle1 = true;
+            _rss.player.GetComponent<HeroManager>().abilityToggle1 = true;
         }
 
-        if (Input.GetKeyDown(keybind.ability2))
+        if (Input.GetKeyDown(_keybind.ability2))
         {
-            rss.player.GetComponent<HeroManager>().abilityToggle2 = true;
+            _rss.player.GetComponent<HeroManager>().abilityToggle2 = true;
         }
 
-        if (Input.GetKeyDown(keybind.ability3))
+        if (Input.GetKeyDown(_keybind.ability3))
         {
-            rss.player.GetComponent<HeroManager>().abilityToggle3 = true;
+            _rss.player.GetComponent<HeroManager>().abilityToggle3 = true;
         }
 
-        if (Input.GetKeyDown(keybind.ability4))
+        if (Input.GetKeyDown(_keybind.ability4))
         {
-            rss.player.GetComponent<HeroManager>().abilityToggle4 = true;
+            _rss.player.GetComponent<HeroManager>().abilityToggle4 = true;
         }
 
-        if (Input.GetKeyDown(keybind.holdPosition))
+        if (Input.GetKeyDown(_keybind.holdPosition))
         {
-            rss.player.GetComponent<HeroManager>().allowMove = false;
+            _rss.player.GetComponent<HeroManager>().allowMove = false;
         }
 
     }
 
     void FixedUpdate()
     {
-        if (rss.player.GetComponent<HeroManager>().allowMove)
+        if (_rss.player.GetComponent<HeroManager>().allowMove)
         {
-            rss.player.transform.localRotation = Quaternion.Euler(FreeMatrix.Utility.Tween2D.PointTo(destination, rss.player.transform.localPosition, rss.player.transform.localRotation));
-            Vector3 newPlayerPos = Vector2.MoveTowards(rss.player.transform.localPosition, destination, (rss.player.GetComponent<HeroManager>().hero.moveSpeed +
-            rss.player.GetComponent<HeroManager>().hero.bonusMoveSpeed) * Time.deltaTime);
-            newPlayerPos = FreeMatrix.Utility.Convert2D.LocalToPixel(rss.displayCanvas.transform.localScale, newPlayerPos);
+            _rss.player.transform.localRotation = Quaternion.Euler(FreeMatrix.Utility.Tween2D.PointTo(_destination, _rss.player.transform.localPosition, _rss.player.transform.localRotation));
+            Vector3 newPlayerPos = Vector2.MoveTowards(_rss.player.transform.localPosition, _destination, (_rss.player.GetComponent<HeroManager>().hero.moveSpeed +
+            _rss.player.GetComponent<HeroManager>().hero.bonusMoveSpeed) * Time.deltaTime);
+            newPlayerPos = FreeMatrix.Utility.Convert2D.LocalToPixel(_rss.displayCanvas.transform.localScale, newPlayerPos);
             newPlayerPos = FreeMatrix.Utility.Convert2D.PixelToWorld(newPlayerPos);
-            rss.player.GetComponent<Rigidbody2D>().position = newPlayerPos;
+            _rss.player.GetComponent<Rigidbody2D>().position = newPlayerPos;
 
-            if (Vector2.Distance(rss.player.transform.localPosition, destination) < 300 * Time.deltaTime) rss.player.GetComponent<HeroManager>().allowMove = false;
+            if (Vector2.Distance(_rss.player.transform.localPosition, _destination) < 300 * Time.deltaTime) _rss.player.GetComponent<HeroManager>().allowMove = false;
         }
     }
 }

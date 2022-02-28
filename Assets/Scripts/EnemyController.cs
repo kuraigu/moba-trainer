@@ -12,12 +12,12 @@ public class EnemyController : MonoBehaviour
         ATTACK,
     }
 
-    private static Resources rss;
-    private static SceneManager scene;
+    private static Resources _rss;
+    private static SceneManager _scene;
 
-    private FreeMatrix.Utility.Time waitTime;
+    private FreeMatrix.Utility.Time _waitTime;
 
-    private static ColorScheme colorScheme;
+    private static ColorScheme _colorScheme;
     private GameObject _target;
     private Vector2 _origin;
     private Vector2 _destination;
@@ -30,9 +30,9 @@ public class EnemyController : MonoBehaviour
 
     void Start()
     {
-        rss = FindObjectOfType<Resources>();
-        scene = FindObjectOfType<SceneManager>();
-        colorScheme = FindObjectOfType<ColorScheme>();
+        _rss = FindObjectOfType<Resources>();
+        _scene = FindObjectOfType<SceneManager>();
+        _colorScheme = FindObjectOfType<ColorScheme>();
 
         this.gameObject.GetComponent<HeroManager>().hero.bonusMoveSpeed = -(float)(0.25 * this.gameObject.GetComponent<HeroManager>().hero.moveSpeed);
 
@@ -40,24 +40,34 @@ public class EnemyController : MonoBehaviour
 
         isDestroy = false;
 
-        this.gameObject.GetComponent<SpriteRenderer>().material.SetColor("_Color", colorScheme.enemy);
+        this.gameObject.GetComponent<SpriteRenderer>().material.SetColor("_Color", _colorScheme.enemy);
         this.gameObject.GetComponent<HeroManager>().allowMove = true;
 
-        if (scene.currentScene == scene.skillShot)
+        if (_scene.currentScene == _scene.skillShot)
         {
-            _destination = GenerateDestination();
-            _state = STATE.PATROL;
+            int type = UnityEngine.Random.Range(0, 2);
+
+            if (type == 0)
+            {
+                _destination = GenerateDestination();
+                _state = STATE.PATROL;
+            }
+
+            if (type == 1)
+            {
+                _state = STATE.FOLLOW;
+            }
         }
 
-        if (scene.currentScene == scene.dodging)
+        if (_scene.currentScene == _scene.dodging)
         {
-            waitTime = new FreeMatrix.Utility.Time(FreeMatrix.Utility.Time.TYPE.COUNTDOWN, 0.5f);
+            _waitTime = new FreeMatrix.Utility.Time(FreeMatrix.Utility.Time.TYPE.COUNTDOWN, 0.5f);
             _state = STATE.FOLLOW;
         }
 
         else
         {
-            waitTime = null;
+            _waitTime = null;
         }
     }
 
@@ -67,7 +77,7 @@ public class EnemyController : MonoBehaviour
         {
             if (_state == STATE.PATROL)
             {
-                if (scene.currentScene == scene.skillShot)
+                if (_scene.currentScene == _scene.skillShot)
                 {
                     if (Vector2.Distance(this.gameObject.transform.localPosition, _destination) < 0.1)
                     {
@@ -75,9 +85,12 @@ public class EnemyController : MonoBehaviour
                     }
                 }
 
-                if (scene.currentScene == scene.dodging)
+                if (_scene.currentScene == _scene.dodging)
                 {
                     _destination = _origin;
+
+                    this.gameObject.GetComponent<Collider2D>().enabled = false;
+                    this.gameObject.GetComponent<HeroManager>().hero.bonusMoveSpeed = 0;
 
                     if (Vector2.Distance(this.gameObject.transform.localPosition, _destination) < 0.1 && _destination == _origin)
                     {
@@ -89,12 +102,12 @@ public class EnemyController : MonoBehaviour
 
             if (_state == STATE.FOLLOW)
             {
-                if (scene.currentScene == scene.skillShot)
+                if (_scene.currentScene == _scene.skillShot)
                 {
                     destination = _target.transform.localPosition;
                 }
 
-                if (scene.currentScene == scene.dodging)
+                if (_scene.currentScene == _scene.dodging)
                 {
                     if (destination != origin)
                     {
@@ -110,7 +123,7 @@ public class EnemyController : MonoBehaviour
 
             if (_state == STATE.ATTACK)
             {
-                if (scene.currentScene == scene.dodging)
+                if (_scene.currentScene == _scene.dodging)
                 {
                     if (Vector2.Distance(this.gameObject.transform.localPosition, _destination) <= 450 && _destination != _origin)
                     {
@@ -121,7 +134,7 @@ public class EnemyController : MonoBehaviour
 
                     if (_reachedDestination)
                     {
-                        if (waitTime.Update())
+                        if (_waitTime.Update())
                         {
                             this.gameObject.GetComponent<HeroManager>().abilityToggle1 = true;
                         }
@@ -142,7 +155,7 @@ public class EnemyController : MonoBehaviour
                 this.gameObject.transform.localRotation = Quaternion.Euler(FreeMatrix.Utility.Tween2D.PointTo(_destination, this.gameObject.transform.localPosition, this.gameObject.transform.localRotation));
                 Vector3 newEnemyPos = Vector2.MoveTowards(this.gameObject.transform.localPosition, _destination, (this.gameObject.GetComponent<HeroManager>().hero.moveSpeed +
                 this.gameObject.GetComponent<HeroManager>().hero.bonusMoveSpeed) * Time.deltaTime);
-                newEnemyPos = FreeMatrix.Utility.Convert2D.LocalToPixel(rss.displayCanvas.transform.localScale, newEnemyPos);
+                newEnemyPos = FreeMatrix.Utility.Convert2D.LocalToPixel(_rss.displayCanvas.transform.localScale, newEnemyPos);
                 newEnemyPos = FreeMatrix.Utility.Convert2D.PixelToWorld(newEnemyPos);
 
                 this.gameObject.GetComponent<Rigidbody2D>().position = newEnemyPos;
@@ -178,8 +191,8 @@ public class EnemyController : MonoBehaviour
         cameraScale.x = (Camera.main.aspect * cameraScale.y);
         Vector3 cameraPos = Camera.main.transform.localPosition * 100;
 
-        cameraScale = FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale, cameraScale);
-        cameraPos = FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale, cameraPos);
+        cameraScale = FreeMatrix.Utility.Convert2D.PixelToLocal(_rss.displayCanvas.transform.localScale, cameraScale);
+        cameraPos = FreeMatrix.Utility.Convert2D.PixelToLocal(_rss.displayCanvas.transform.localScale, cameraPos);
 
         Vector2 newPos = Vector2.zero;
         newPos.x = UnityEngine.Random.Range(cameraPos.x + -(cameraScale.x / 2), cameraPos.x + (cameraScale.x / 2));
@@ -194,7 +207,7 @@ public class EnemyController : MonoBehaviour
             if (col.transform.tag == "Player")
             {
                 Destroy(this.gameObject);
-                rss.sceneManager.GameOver();
+                _rss.sceneManager.GameOver();
             }
         }
     }
@@ -206,7 +219,7 @@ public class EnemyController : MonoBehaviour
             if (col.transform.tag == "Player Projectile")
             {
                 this.gameObject.GetComponent<SpriteRenderer>().material.SetInt("_IsOutlineVisible", 0);
-                rss.scoreGameObject.GetComponent<Score>().score += 100;
+                _rss.scoreGameObject.GetComponent<Score>().score += 100;
 
                 isDestroy = true;
                 this.gameObject.GetComponent<HeroManager>().allowMove = false;
@@ -217,7 +230,7 @@ public class EnemyController : MonoBehaviour
     void OnMouseEnter()
     {
         this.gameObject.GetComponent<SpriteRenderer>().material.SetInt("_IsOutlineVisible", 1);
-        this.gameObject.GetComponent<SpriteRenderer>().material.SetColor("_OutlineColor", colorScheme.enemyHighLight);
+        this.gameObject.GetComponent<SpriteRenderer>().material.SetColor("_OutlineColor", _colorScheme.enemyHighLight);
     }
 
     void OnMouseExit()

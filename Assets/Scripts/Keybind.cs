@@ -18,22 +18,15 @@ public class Keybind : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        keyBindInit = PlayerPrefs.GetInt("keyBindInit", 0);
+        ability1 = (UnityEngine.KeyCode)PlayerPrefs.GetInt("ability1", System.Convert.ToInt32(KeyCode.Q));
+        ability2 = (UnityEngine.KeyCode)PlayerPrefs.GetInt("ability2", System.Convert.ToInt32(KeyCode.W));
+        ability3 = (UnityEngine.KeyCode)PlayerPrefs.GetInt("ability3", System.Convert.ToInt32(KeyCode.E));
+        ability4 = (UnityEngine.KeyCode)PlayerPrefs.GetInt("ability4", System.Convert.ToInt32(KeyCode.R));
 
-        if (keyBindInit == 0)
-        {
-            Reset();
-        }
+        holdPosition = (UnityEngine.KeyCode)PlayerPrefs.GetInt("holdPosition", System.Convert.ToInt32(KeyCode.S));
 
-        ability1 = (UnityEngine.KeyCode)PlayerPrefs.GetInt("ability1");
-        ability2 = (UnityEngine.KeyCode)PlayerPrefs.GetInt("ability2");
-        ability3 = (UnityEngine.KeyCode)PlayerPrefs.GetInt("ability3");
-        ability4 = (UnityEngine.KeyCode)PlayerPrefs.GetInt("ability4");
-
-        holdPosition = (UnityEngine.KeyCode)PlayerPrefs.GetInt("holdPosition");
-
-        pause = (UnityEngine.KeyCode)PlayerPrefs.GetInt("pause");
-        settings = (UnityEngine.KeyCode)PlayerPrefs.GetInt("settings");
+        pause = (UnityEngine.KeyCode)PlayerPrefs.GetInt("pause", System.Convert.ToInt32(KeyCode.P));
+        settings = (UnityEngine.KeyCode)PlayerPrefs.GetInt("settings", System.Convert.ToInt32(KeyCode.Escape));
     }
 
     public void Reset()

@@ -5,25 +5,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Fireball", menuName = "Ability/Fireball")]
 public class Fireball : Ability
 {
-    private static Resources rss;
-    private static SceneManager scene;
+    private static Resources _rss;
+    private static SceneManager _scene;
 
-    private GameObject projectileReference;
-    private List<GameObject> projectile;
-    private List<Vector3> oldPositionList;
+    private GameObject _projectileReference;
+    private List<GameObject> _projectile;
+    private List<Vector3> _oldPositionList;
 
-    private float thrust;
+    private float _thrust;
 
-    private Vector2 direction;
+    private Vector2 _direction;
 
     public override void Start()
     {
-        rss = GameObject.Find("Game Script").GetComponent<Resources>();
-        projectileReference = rss.fireBall;
+        _rss = GameObject.Find("Game Script").GetComponent<Resources>();
+        _projectileReference = _rss.fireBall;
         range = 500;
 
-        projectile = new List<GameObject>();
-        oldPositionList = new List<Vector3>();
+        _projectile = new List<GameObject>();
+        _oldPositionList = new List<Vector3>();
 
         abilityName = "Fireball";
         isPassive = false;
@@ -36,8 +36,8 @@ public class Fireball : Ability
         coolDownTimer = new FreeMatrix.Utility.Time(FreeMatrix.Utility.Time.TYPE.COUNTDOWN, coolDownTime);
         coolDownTimeRun = false;
 
-        thrust = FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale.x, attackSpeed);
-        thrust = FreeMatrix.Utility.Convert2D.LocalToWorld(rss.displayCanvas.transform.localScale.x, attackSpeed);
+        _thrust = FreeMatrix.Utility.Convert2D.PixelToLocal(_rss.displayCanvas.transform.localScale.x, attackSpeed);
+        _thrust = FreeMatrix.Utility.Convert2D.LocalToWorld(_rss.displayCanvas.transform.localScale.x, attackSpeed);
     }
 
     public override void Activate()
@@ -47,24 +47,24 @@ public class Fireball : Ability
             Debug.Log("TOGGLED");
             parent.GetComponent<HeroManager>().allowMove = false;
 
-            projectile.Add(Instantiate(projectileReference));
-            int tempIndex = projectile.Count - 1;
+            _projectile.Add(Instantiate(_projectileReference));
+            int tempIndex = _projectile.Count - 1;
 
-            projectile[tempIndex].transform.SetParent(rss.displayCanvas.transform, false);
-            projectile[tempIndex].transform.localPosition = parent.transform.localPosition;
+            _projectile[tempIndex].transform.SetParent(_rss.displayCanvas.transform, false);
+            _projectile[tempIndex].transform.localPosition = parent.transform.localPosition;
 
-            if (parent.GetComponent<HeroManager>().isPlayer) projectile[tempIndex].tag = "Player Projectile";
-            else if (!parent.GetComponent<HeroManager>().isPlayer) projectile[tempIndex].tag = "Enemy Projectile";
+            if (parent.GetComponent<HeroManager>().isPlayer) _projectile[tempIndex].tag = "Player Projectile";
+            else if (!parent.GetComponent<HeroManager>().isPlayer) _projectile[tempIndex].tag = "Enemy Projectile";
 
 
-            Vector2 direction = onMousePosition - projectile[tempIndex].transform.localPosition;
+            Vector2 direction = onMousePosition - _projectile[tempIndex].transform.localPosition;
 
-            Vector3 angle = FreeMatrix.Utility.Tween2D.PointTo(onMousePosition, projectile[tempIndex].transform.localPosition, projectile[tempIndex].transform.localRotation);
+            Vector3 angle = FreeMatrix.Utility.Tween2D.PointTo(onMousePosition, _projectile[tempIndex].transform.localPosition, _projectile[tempIndex].transform.localRotation);
 
-            projectile[tempIndex].transform.localRotation = Quaternion.Euler(angle);
+            _projectile[tempIndex].transform.localRotation = Quaternion.Euler(angle);
             parent.transform.localRotation = Quaternion.Euler(angle);
 
-            oldPositionList.Add(parent.transform.localPosition);
+            _oldPositionList.Add(parent.transform.localPosition);
 
             isActive = false;
             coolDownTimeRun = true;
@@ -85,28 +85,28 @@ public class Fireball : Ability
 
     public override void FixedUpdate()
     {
-        if (projectile.Count > 0)
+        if (_projectile.Count > 0)
         {
-            for (int i = 0; i < projectile.Count; i++)
+            for (int i = 0; i < _projectile.Count; i++)
             {
-                if (projectile[i] == null)
+                if (_projectile[i] == null)
                 {
-                    projectile.RemoveAt(i);
-                    oldPositionList.RemoveAt(i);
+                    _projectile.RemoveAt(i);
+                    _oldPositionList.RemoveAt(i);
                 }
             }
 
-            for (int i = 0; i < projectile.Count; i++)
+            for (int i = 0; i < _projectile.Count; i++)
             {
 
-                projectile[i].GetComponent<Rigidbody2D>().velocity = projectile[i].transform.right * new Vector2(thrust, thrust);
+                _projectile[i].GetComponent<Rigidbody2D>().velocity = _projectile[i].transform.right * new Vector2(_thrust, _thrust);
 
 
-                if (Vector2.Distance(oldPositionList[i], projectile[i].transform.localPosition) >= FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale.x, range))
+                if (Vector2.Distance(_oldPositionList[i], _projectile[i].transform.localPosition) >= FreeMatrix.Utility.Convert2D.PixelToLocal(_rss.displayCanvas.transform.localScale.x, range))
                 {
-                    Destroy(projectile[i]);
-                    projectile.RemoveAt(i);
-                    oldPositionList.RemoveAt(i);
+                    Destroy(_projectile[i]);
+                    _projectile.RemoveAt(i);
+                    _oldPositionList.RemoveAt(i);
                 }
             }
 

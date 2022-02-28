@@ -5,11 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Blink", menuName = "Ability/Blink")]
 public class Blink : Ability
 {
-    private static Resources rss;
+    private static Resources _rss;
 
     public override void Start()
     {
-        rss = GameObject.Find("Game Script").GetComponent<Resources>();
+        _rss = GameObject.Find("Game Script").GetComponent<Resources>();
 
         abilityName = "Blink";
         isPassive = false;
@@ -31,14 +31,14 @@ public class Blink : Ability
         if (isActive)
         {
             onMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            onMousePosition = FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale, onMousePosition * 100);
+            onMousePosition = FreeMatrix.Utility.Convert2D.PixelToLocal(_rss.displayCanvas.transform.localScale, onMousePosition * 100);
             destination = onMousePosition;
 
             parent.GetComponent<HeroManager>().allowMove = false;
 
             parent.transform.localPosition = Vector3.MoveTowards(parent.transform.localPosition, destination, range);
 
-            parent.GetComponent<Rigidbody2D>().position = FreeMatrix.Utility.Convert2D.LocalToWorld(rss.displayCanvas.transform.localScale, parent.transform.localPosition);
+            parent.GetComponent<Rigidbody2D>().position = FreeMatrix.Utility.Convert2D.LocalToWorld(_rss.displayCanvas.transform.localScale, parent.transform.localPosition);
 
             parent.transform.localRotation = Quaternion.Euler(FreeMatrix.Utility.Tween2D.PointTo(onMousePosition, parent.transform.localPosition, parent.transform.localRotation));
 

@@ -4,27 +4,28 @@ using UnityEngine;
 
 public class HeroManager : MonoBehaviour
 {
-    private static Resources rss;
+    private static Resources _rss;
 
     // Properties
     private GameObject _parent;
-    [SerializeField] private Hero _hero;
+    [SerializeField] private Hero _heroRef;
+    private Hero _hero;
 
     private bool _allowMove;
     private bool _isPlayer;
 
     // Abilities
-    [SerializeField] Ability ability1Ref;
-    [SerializeField] Ability ability2Ref;
-    [SerializeField] Ability ability3Ref;
-    [SerializeField] Ability ability4Ref;
+    [SerializeField] Ability _ability1Ref;
+    [SerializeField] Ability _ability2Ref;
+    [SerializeField] Ability _ability3Ref;
+    [SerializeField] Ability _ability4Ref;
 
     Ability _ability1;
     Ability _ability2;
     Ability _ability4;
 
-    Vector3 coolDownIndicatorOriginalScale;
-    Vector3 coolDownIndicatorOriginalPos;
+    Vector3 _coolDownIndicatorOriginalScale;
+    Vector3 _coolDownIndicatorOriginalPos;
 
     // KeyCodes
     private bool _abilityToggle1;
@@ -37,12 +38,14 @@ public class HeroManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rss = GameObject.Find("Game Script").GetComponent<Resources>();
+        _rss = GameObject.Find("Game Script").GetComponent<Resources>();
         _allowMove = false;
 
-        _ability1 = Instantiate(ability1Ref);
-        _ability2 = Instantiate(ability2Ref);
-        _ability4 = Instantiate(ability4Ref);
+        _hero = Instantiate(_heroRef);
+
+        _ability1 = Instantiate(_ability1Ref);
+        _ability2 = Instantiate(_ability2Ref);
+        _ability4 = Instantiate(_ability4Ref);
 
         _ability1.Start();
         _ability2.Start();
@@ -55,8 +58,8 @@ public class HeroManager : MonoBehaviour
 
         if (_isPlayer)
         {
-            coolDownIndicatorOriginalScale = rss.coolDownIndicator1.transform.localScale;
-            coolDownIndicatorOriginalPos = rss.coolDownIndicator1.transform.localPosition;
+            _coolDownIndicatorOriginalScale = _rss.coolDownIndicator1.transform.localScale;
+            _coolDownIndicatorOriginalPos = _rss.coolDownIndicator1.transform.localPosition;
         }
 
         _target = Vector3.zero;
@@ -71,10 +74,10 @@ public class HeroManager : MonoBehaviour
 
         if (_isPlayer)
         {
-            SetCoolDownIndicator(_ability1, rss.abilityHolder1, rss.coolDownIndicator1);
-            SetCoolDownIndicator(_ability2, rss.abilityHolder2, rss.coolDownIndicator2);
+            SetCoolDownIndicator(_ability1, _rss.abilityHolder1, _rss.coolDownIndicator1);
+            SetCoolDownIndicator(_ability2, _rss.abilityHolder2, _rss.coolDownIndicator2);
 
-            SetCoolDownIndicator(_ability4, rss.abilityHolder4, rss.coolDownIndicator4);
+            SetCoolDownIndicator(_ability4, _rss.abilityHolder4, _rss.coolDownIndicator4);
         }
 
         if (_abilityToggle1)
@@ -118,7 +121,7 @@ public class HeroManager : MonoBehaviour
     {
         if (ability.isActive)
         {
-            coolDownIndicator.transform.localScale = coolDownIndicatorOriginalScale;
+            coolDownIndicator.transform.localScale = _coolDownIndicatorOriginalScale;
             coolDownIndicator.SetActive(false);
         }
 
@@ -127,7 +130,7 @@ public class HeroManager : MonoBehaviour
             coolDownIndicator.SetActive(true);
 
             Vector3 newScale = coolDownIndicator.transform.localScale;
-            newScale.y = FreeMatrix.Utility.Tween2D.ScaleDown(coolDownIndicator.transform.localScale.y, (coolDownIndicatorOriginalScale.y) / ability.coolDownTime);
+            newScale.y = FreeMatrix.Utility.Tween2D.ScaleDown(coolDownIndicator.transform.localScale.y, (_coolDownIndicatorOriginalScale.y) / ability.coolDownTime);
             coolDownIndicator.transform.localScale = newScale;
         }
 
@@ -138,7 +141,7 @@ public class HeroManager : MonoBehaviour
         if (_isPlayer)
         {
             ability.onMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            ability.onMousePosition = FreeMatrix.Utility.Convert2D.PixelToLocal(rss.displayCanvas.transform.localScale, ability.onMousePosition * 100);
+            ability.onMousePosition = FreeMatrix.Utility.Convert2D.PixelToLocal(_rss.displayCanvas.transform.localScale, ability.onMousePosition * 100);
         }
 
         else if (!_isPlayer)

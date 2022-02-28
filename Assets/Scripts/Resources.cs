@@ -11,9 +11,9 @@ public class Resources : MonoBehaviour
     public GameObject player;
 
     // Misc
-    public GameObject enemiesMisc;
     public GameObject heroesMisc;
     public GameObject projectilesMisc;
+    public GameObject cursorMisc;
 
     // Projectiles
     public GameObject fireBall;
@@ -44,11 +44,17 @@ public class Resources : MonoBehaviour
         scoreGameObject = GameObject.Find("Score");
         scoreText = GameObject.Find("ScoreValue");
 
+        cursorMisc = UnityEngine.Resources.Load<GameObject>("Cursors");
+        generalCursor = cursorMisc.transform.Find("General Cursor").gameObject;
+
         if (sceneManager.currentScene != sceneManager.gameOver)
         {
             player = GameObject.Find("Player");
+            projectilesMisc = UnityEngine.Resources.Load<GameObject>("Projectiles");
+            fireBall = projectilesMisc.transform.Find("Fireball Projectile").gameObject;
 
-            fireBall = GameObject.Find("Fireball Projectile");
+            heroesMisc = UnityEngine.Resources.Load<GameObject>("Heroes");
+            heroesMisc.SetActive(false);
 
             abilityHud = GameObject.Find("Ability Container");
 
@@ -66,11 +72,6 @@ public class Resources : MonoBehaviour
             coolDownIndicator2.SetActive(false);
             coolDownIndicator3.SetActive(false);
             coolDownIndicator4.SetActive(false);
-
-            heroesMisc = GameObject.Find("Heroes");
-            heroesMisc.SetActive(false);
-
-            generalCursor = GameObject.Find("General Cursor");
         }
     }
 }
