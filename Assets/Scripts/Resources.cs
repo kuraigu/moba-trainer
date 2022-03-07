@@ -14,6 +14,7 @@ public class Resources : MonoBehaviour
     public GameObject heroesMisc;
     public GameObject projectilesMisc;
     public GameObject cursorMisc;
+    public GameObject minionMisc;
 
     // Projectiles
     public GameObject fireBall;
@@ -39,16 +40,28 @@ public class Resources : MonoBehaviour
     void Start()
     {
         sceneManager = FindObjectOfType<SceneManager>();
-        displayCanvas = GameObject.Find("Display Canvas").GetComponent<Canvas>();
 
-        scoreGameObject = GameObject.Find("Score");
-        scoreText = GameObject.Find("ScoreValue");
-
-        cursorMisc = UnityEngine.Resources.Load<GameObject>("Cursors");
-        generalCursor = cursorMisc.transform.Find("General Cursor").gameObject;
-
-        if (sceneManager.currentScene != sceneManager.gameOver)
+        if (sceneManager.currentScene == sceneManager.gameOver)
         {
+            displayCanvas = GameObject.Find("Display Canvas").GetComponent<Canvas>();
+
+            scoreGameObject = GameObject.Find("Score");
+            scoreText = GameObject.Find("ScoreValue");
+
+            cursorMisc = UnityEngine.Resources.Load<GameObject>("Cursors");
+            generalCursor = cursorMisc.transform.Find("General Cursor").gameObject;
+        }
+
+        if (sceneManager.currentScene == sceneManager.dodging || sceneManager.currentScene == sceneManager.skillShot)
+        {
+            displayCanvas = GameObject.Find("Display Canvas").GetComponent<Canvas>();
+
+            scoreGameObject = GameObject.Find("Score");
+            scoreText = GameObject.Find("ScoreValue");
+
+            cursorMisc = UnityEngine.Resources.Load<GameObject>("Cursors");
+            generalCursor = cursorMisc.transform.Find("General Cursor").gameObject;
+
             player = GameObject.Find("Player");
             projectilesMisc = UnityEngine.Resources.Load<GameObject>("Projectiles");
             fireBall = projectilesMisc.transform.Find("Fireball Projectile").gameObject;
@@ -72,6 +85,11 @@ public class Resources : MonoBehaviour
             coolDownIndicator2.SetActive(false);
             coolDownIndicator3.SetActive(false);
             coolDownIndicator4.SetActive(false);
+        }
+
+        if (sceneManager.currentScene == sceneManager.test)
+        {
+            minionMisc = GameObject.Find("Minions");
         }
     }
 }

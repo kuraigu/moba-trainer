@@ -4,41 +4,62 @@ using UnityEngine;
 
 public class MinionController : MonoBehaviour
 {
-    MinionManager _minionManager;
+    // minion
+
+    // currentHealth;
+
+    // allowMove;
+
+    // isAttacking
+
+    // naturalDestination
+    // destination 
+
+    // currentTarget
+
+    // isDestroy
+
+    private Minion _minion;
+
+    private int _currentHealth;
+
+    private bool _allowMove;
+
+    private bool _isAttacking;
+
+    private Transform _naturalDestination;
+    private Transform _destination;
+
+    public bool _isDestroy;
 
     // Start is called before the first frame update
     void Start()
     {
-        _minionManager = this.gameObject.GetComponent<MinionManager>();
+        _currentHealth = _minion.health;
+
+        _allowMove = true;
+
+        _isAttacking = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (this.gameObject.transform.Find("Range").GetComponent<AutoAttack>().target != null)
-        {
-            if (_minionManager.allowMove)
-            {
-                this.gameObject.transform.localPosition = Vector2.MoveTowards(this.gameObject.transform.localPosition,
-                this.gameObject.transform.Find("Range").GetComponent<AutoAttack>().target.transform.localPosition,
-                _minionManager.minion.moveSpeed * Time.deltaTime);
 
-                if (Vector2.Distance(this.gameObject.transform.localPosition, this.gameObject.transform.Find("Range").GetComponent<AutoAttack>().target.transform.localPosition) <=
-                FreeMatrix.Utility.Convert2D.PixelToLocal(this.gameObject.transform.parent.transform.localScale.x, _minionManager.minion.range))
-                {
-                    _minionManager.allowMove = false;
-                }
-            }
+    }
+
+    void Move()
+    {
+        if (_destination != _naturalDestination)
+        {
+            // move to target
         }
 
         else
         {
-            _minionManager.allowMove = true;
-
-            if (_minionManager.allowMove)
+            if (_allowMove)
             {
-                this.gameObject.transform.localPosition = Vector2.MoveTowards(this.gameObject.transform.localPosition, _minionManager.target.transform.localPosition,
-                _minionManager.minion.moveSpeed * Time.deltaTime);
+                // move to natural destination
             }
         }
     }

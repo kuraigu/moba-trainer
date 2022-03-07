@@ -14,20 +14,23 @@ public class ProjectileManager : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (this.gameObject.tag == "Player Projectile")
+        switch (gameObject.tag)
         {
-            if (col.transform.tag == "Enemy")
-            {
-                Destroy(this.gameObject);
-            }
-        }
+            default:
+                break;
+            case "Player Projectile":
+                if (col.transform.tag == "Enemy")
+                {
+                    Destroy(this.gameObject);
+                }
+                break;
 
-        if (this.gameObject.tag == "Enemy Projectile")
-        {
-            if (col.transform.tag == "Player")
-            {
-                Destroy(this.gameObject);
-            }
+            case "Enemy Projectile":
+                if (col.transform.tag == "Player")
+                {
+                    Destroy(this.gameObject);
+                }
+                break;
         }
     }
 

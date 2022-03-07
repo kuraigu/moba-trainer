@@ -9,10 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 691f16d2436361244a7dc09f447c4b89, type: 3}
+  m_Script: {fileID: 11500000, guid: c60b3ae230361434fabe342ee733bdc1, type: 3}
   m_Name: Mage
   m_EditorClassIdentifier: 
-  _name: Mage
+  _parent: {fileID: 0}
+  _minionName: 
   _health: 0
-  _range: 150
-  _moveSpeed: 150
+  _range: 0
+  _attackDamage: 0
+  _attackSpeed: 0
+  _goldWorth: 0

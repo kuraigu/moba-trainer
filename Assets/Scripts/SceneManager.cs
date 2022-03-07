@@ -16,6 +16,8 @@ public class SceneManager : MonoBehaviour
     public string farming;
     public string gameOver;
 
+    public string test;
+
     public string normal;
     public string settings;
     public string paused;
@@ -33,7 +35,13 @@ public class SceneManager : MonoBehaviour
         farming = "Farming";
         gameOver = "Game Over";
 
+        test = "Test";
+
         normal = "Normal";
+        settings = "Settings";
+        paused = "Paused";
+
+        currentSubScene = "Normal";
     }
 
     public void MainMenu()

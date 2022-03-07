@@ -1,37 +1,54 @@
+// MinionManager handles the spawn cycle of minions and sets their initial values
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MinionManager : MonoBehaviour
 {
-    [SerializeField] Minion _minion;
-    [SerializeField] GameObject _range;
+    // mageMinionRef
+    // meleeMionionRef
 
-    GameObject _target;
+    // spawntimer
+    // intervaltimer
 
-    int _currentHealth;
+    // counter
 
-    bool _allowMove;
+    private GameObject _type;
+    private GameObject _mageMinionRef;
+    private GameObject _meleeMinionRef;
 
-    // Start is called before the first frame update
+    private FreeMatrix.Utility.Time _spawnTimer;
+    private FreeMatrix.Utility.Time _intervalTimer;
+
+    private int _counter;
+
     void Start()
     {
-        _allowMove = true;
 
-        if (this.gameObject.tag == "Ally Minion") _target = GameObject.Find("Ally Destination");
-        if (this.gameObject.tag == "Enemy Minion") _target = GameObject.Find("Enemy Destination");
     }
 
-    // Update is called once per frame
     void Update()
     {
+
     }
 
-    public Minion minion { get { return _minion; } }
+    /// <summary>
+    /// Spawns the minions and initializes their starting values
+    /// </summary>
+    /// <param name="minionList">Minion List</param>
+    void Spawn(List<GameObject> minionList)
+    {
 
-    public GameObject target { get { return _target; } set { _target = value; } }
+    }
 
-    public int currentHealth { get { return _currentHealth; } }
 
-    public bool allowMove { get { return _allowMove; } set { _allowMove = value; } }
+    /// <summary>
+    /// Checks whether a minion is null, if it is then remove it from the list
+    /// </summary>
+    /// <param name="minionList">Minion List</param>
+    void Remove(List<GameObject> minionList)
+    {
+
+    }
 }
