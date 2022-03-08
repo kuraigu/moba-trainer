@@ -4,33 +4,21 @@ using UnityEngine;
 
 public class MinionController : MonoBehaviour
 {
-    // minion
+    [SerializeField] private Minion _minion;
+    // Seeker
 
-    // currentHealth;
+    [SerializeField] private int _currentHealth;
 
-    // allowMove;
+    [SerializeField] private bool _allowMove;
 
-    // isAttacking
+    [SerializeField] private bool _isAttacking;
 
-    // naturalDestination
-    // destination 
+    [SerializeField] private Transform _naturalDestination;
+    [SerializeField] private Transform _destination;                               // current destination of the gameobject
 
-    // currentTarget
+    [SerializeField] private bool _isDestroy;                                      // flag to destroy the gameobject
 
-    // isDestroy
-
-    private Minion _minion;
-
-    private int _currentHealth;
-
-    private bool _allowMove;
-
-    private bool _isAttacking;
-
-    private Transform _naturalDestination;
-    private Transform _destination;
-
-    public bool _isDestroy;
+    [SerializeField] private List<string> _seekTagList;                            // _seekTag list allows the Seeker to create a list of gameobjects allowed to be targeted
 
     // Start is called before the first frame update
     void Start()
@@ -40,12 +28,19 @@ public class MinionController : MonoBehaviour
         _allowMove = true;
 
         _isAttacking = false;
+
+        _seekTagList = new List<string>();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    void FixedUpdate()
+    {
+        Move();
     }
 
     void Move()
@@ -63,4 +58,19 @@ public class MinionController : MonoBehaviour
             }
         }
     }
+
+    public Minion minion { get { return _minion; } set { _minion = value; } }
+
+    public int currentHealth { get { return _currentHealth; } set { _currentHealth = value; } }
+
+    public bool allowMove { get { return _allowMove; } set { _allowMove = value; } }
+
+    public bool isAttacking { get { return _isAttacking; } set { _isAttacking = value; } }
+
+    public Transform naturalDestination { get { return _naturalDestination; } set { _naturalDestination = value; } }
+    public Transform destination { get; set; }
+
+    public bool isDestroy { get { return _isDestroy; } set { _isDestroy = value; } }
+
+    public List<string> seekTagList { get { return _seekTagList; } set { _seekTagList = value; } }
 }
