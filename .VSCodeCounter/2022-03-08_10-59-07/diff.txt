@@ -1,0 +1,42 @@
+Date : 2022-03-08 10:59:07
+Directory : d:\Development\Moba Trainer\Assets\Scripts
+Total : 15 files,  60 codes, 7 comments, 32 blanks, all 99 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| C#       |         15 |         60 |          7 |         32 |         99 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                            | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                               |         15 |         60 |          7 |         32 |         99 |
+| Abilities                                                       |          1 |         45 |          3 |         17 |         65 |
+| Minion                                                          |          1 |        -17 |          0 |         -5 |        -22 |
+| Minions                                                         |          3 |         52 |          0 |         13 |         65 |
++-----------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                        | language | code       | comment    | blank      | total      |
++-----------------------------------------------------------------+----------+------------+------------+------------+------------+
+| d:\Development\Moba Trainer\Assets\Scripts\Abilities\Ability.cs | C#       |         45 |          3 |         17 |         65 |
+| d:\Development\Moba Trainer\Assets\Scripts\Ability.cs           | C#       |        -46 |         -3 |        -17 |        -66 |
+| d:\Development\Moba Trainer\Assets\Scripts\AutoAttack.cs        | C#       |        -30 |          0 |         -7 |        -37 |
+| d:\Development\Moba Trainer\Assets\Scripts\Minion.cs            | C#       |        -18 |          0 |         -7 |        -25 |
+| d:\Development\Moba Trainer\Assets\Scripts\MinionController.cs  | C#       |         18 |          0 |         21 |         39 |
+| d:\Development\Moba Trainer\Assets\Scripts\MinionManager.cs     | C#       |         51 |         10 |         18 |         79 |
+| d:\Development\Moba Trainer\Assets\Scripts\MinionSpawner.cs     | C#       |        -57 |         -8 |        -19 |        -84 |
+| d:\Development\Moba Trainer\Assets\Scripts\Minion\Mage.cs       | C#       |        -17 |          0 |         -5 |        -22 |
+| d:\Development\Moba Trainer\Assets\Scripts\Minions\Mage.cs      | C#       |         16 |          0 |          3 |         19 |
+| d:\Development\Moba Trainer\Assets\Scripts\Minions\Melee.cs     | C#       |         16 |          0 |          3 |         19 |
+| d:\Development\Moba Trainer\Assets\Scripts\Minions\Minion.cs    | C#       |         20 |          0 |          7 |         27 |
+| d:\Development\Moba Trainer\Assets\Scripts\ProjectileManager.cs | C#       |          3 |          0 |          0 |          3 |
+| d:\Development\Moba Trainer\Assets\Scripts\Resources.cs         | C#       |         13 |          0 |          5 |         18 |
+| d:\Development\Moba Trainer\Assets\Scripts\SceneManager.cs      | C#       |          5 |          0 |          3 |          8 |
+| d:\Development\Moba Trainer\Assets\Scripts\Seeker.cs            | C#       |         41 |          5 |         10 |         56 |
+| Total                                                           |          |         60 |          7 |         32 |         99 |
++-----------------------------------------------------------------+----------+------------+------------+------------+------------+

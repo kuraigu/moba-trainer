@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class MinionController : MonoBehaviour
 {
+    [Header("Edit")]
     [SerializeField] private Minion _minion;
-    // Seeker
+    [SerializeField] private Seeker _seeker;
+    [Space(10)]
 
+    [Header("Read Only")]
     [SerializeField] private int _currentHealth;
 
     [SerializeField] private bool _allowMove;
@@ -17,6 +20,7 @@ public class MinionController : MonoBehaviour
     [SerializeField] private Transform _destination;                               // current destination of the gameobject
 
     [SerializeField] private bool _isDestroy;                                      // flag to destroy the gameobject
+    [Space(1)]
 
     [SerializeField] private List<string> _seekTagList;                            // _seekTag list allows the Seeker to create a list of gameobjects allowed to be targeted
 
@@ -45,17 +49,21 @@ public class MinionController : MonoBehaviour
 
     void Move()
     {
+        if (_seeker.target != null) _destination = _seeker.target.transform;
+        else _destination = _naturalDestination;
+
         if (_destination != _naturalDestination)
         {
-            // move to target
+
         }
 
         else
         {
-            if (_allowMove)
-            {
-                // move to natural destination
-            }
+        }
+
+        if (_allowMove)
+        {
+
         }
     }
 

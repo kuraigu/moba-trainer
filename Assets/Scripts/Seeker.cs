@@ -9,20 +9,47 @@ public class Seeker : MonoBehaviour
     // hasTarget  ;;  
     // seekTag    ;; 
 
+    private GameObject _parent;
+
+    private GameObject _target;
+    private bool _hasTarget;
+    private List<string> _seekTagList;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        // target = null
-        // hasTarget = false;
-
-        // seektag new List
+        _target = null;
+        _hasTarget = false;
+        _seekTagList = new List<string>();
     }
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        // if ! hastarget
-        //      for loop seek list
-        //      if col 
+        if (!_hasTarget)
+        {
+            if (_seekTagList.Count > 0)
+            {
+                for (int i = 0; i < _seekTagList.Count; i++)
+                {
+                    if (col.tag == _seekTagList[i])
+                    {
+                        _hasTarget = true;
+                        _target = col.gameObject;
+                    }
+                }
+            }
+        }
+
+        if (_target == null)
+        {
+            _hasTarget = false;
+        }
     }
+
+    public int parent { get; set; }
+
+    public GameObject target { get; set; }
+    public int hasTarget { get; set; }
+    public int seekTag { get; set; }
 }
